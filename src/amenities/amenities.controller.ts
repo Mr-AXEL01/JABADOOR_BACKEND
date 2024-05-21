@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AmenitiesService } from './amenities.service';
 import { Amenity } from '../../schemas/amenity.schema';
+import { Express } from 'express';
 
 @Controller('amenities')
 export class AmenitiesController {
   constructor(private readonly amenitiesService: AmenitiesService) {}
 
   @Post()
-  async create(@Body() createAmenityDto: Amenity) {
-    return this.amenitiesService.create(createAmenityDto);
+  @UseInterceptors(FileInterceptor('icon'))
+  async create(@Body() amenity: Amenity) {
+    return this.amenitiesService.create(amenity, amenity.icon);
   }
 
   @Get()
