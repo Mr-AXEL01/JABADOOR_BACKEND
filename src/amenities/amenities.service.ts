@@ -2,13 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Amenity, AmenityDocument } from '../../schemas/amenity.schema';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { Express } from 'express';
 
 @Injectable()
 export class AmenitiesService {
-  constructor(@InjectModel(Amenity.name) private amenityModel: Model<AmenityDocument>) {}
+  constructor(
+    @InjectModel(Amenity.name) private amenityModel: Model<AmenityDocument>,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
-  async create(amenity: Amenity): Promise<Amenity> {
-    const createdAmenity = new this.amenityModel(amenity);
+  async create(amenity: Amenity, icon: string): Promise<Amenity> {
+    const uploadResult = await this.cloudinaryService.uploadImage(icon, 'amenties');
+    const createdAmenity = new this.amenityModel({
+      ...amenity,
+      icon: uploadResult.secure_url,
+    });
     return createdAmenity.save();
   }
 

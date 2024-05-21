@@ -3,10 +3,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { AmenitiesModule } from './amenities/amenities.module';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://MrAxel-01:3GqpiUBaO5NAkh6g@mraxel-01.fb1qxgu.mongodb.net/JABADOOR?retryWrites=true&w=majority'), AmenitiesModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(process.env.MONGO_URI),
+    CloudinaryModule,
+    AmenitiesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
