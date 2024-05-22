@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module'; // Import CloudinaryModule
+import { CloudinaryModule } from 'src/cloudinary2/cloudinary.module'; // Import CloudinaryModule
 import { AmenitiesController } from './amenities.controller';
 import { AmenitiesService } from './amenities.service';
 import { Amenity, AmenitySchema } from 'schemas/amenity.schema';
