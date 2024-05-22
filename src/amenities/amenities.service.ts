@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Amenity, AmenityDocument } from '../../schemas/amenity.schema';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
+
 @Injectable()
 export class AmenitiesService {
   constructor(
