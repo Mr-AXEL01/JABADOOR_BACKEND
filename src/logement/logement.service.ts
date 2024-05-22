@@ -7,17 +7,14 @@ import { Categorie } from 'schemas/category.schema';
 import { Amenity } from 'schemas/amenity.schema';
 import { Logement } from 'schemas/logement.schema';
 
-
 @Injectable()
 export class LogementService {
   constructor(
     @InjectModel(Logement.name) private logementModel: Model<Logement>,
     @InjectModel(Address.name) private addressModel: Model<Address>,
     @InjectModel(Categorie.name) private categoryModel: Model<Categorie>,
-    @InjectModel(Amenity.name) private amenityModel: Model<Amenity>,  // Assume you have an Amenity model
+    @InjectModel(Amenity.name) private amenityModel: Model<Amenity>,
   ) {}
-
-
 
   async create(createLogementDto: CreateLogementDto): Promise<Logement> {
     const { addressId, categoryId, amenitiesIds } = createLogementDto;
@@ -25,38 +22,36 @@ export class LogementService {
     // Fetch address
     const address = await this.addressModel.findById(addressId).exec();
     if (!address) {
-        throw new NotFoundException(`Address with ID ${addressId} not found`);
+      throw new NotFoundException(`Address with ID ${addressId} not found`);
     }
 
     // Fetch category
     const category = await this.categoryModel.findById(categoryId).exec();
     if (!category) {
-        throw new NotFoundException(`Category with ID ${categoryId} not found`);
+      throw new NotFoundException(`Category with ID ${categoryId} not found`);
     }
 
     // Fetch amenities if provided
     let amenities = [];
     if (amenitiesIds && amenitiesIds.length > 0) {
-        amenities = await this.amenityModel.find({
-            _id: { $in: amenitiesIds },
-        }).exec();
-        if (amenities.length !== amenitiesIds.length) {
-            throw new NotFoundException(`One or more amenities not found`);
-        }
+      amenities = await this.amenityModel.find({
+        _id: { $in: amenitiesIds },
+      }).exec();
+      if (amenities.length !== amenitiesIds.length) {
+        throw new NotFoundException(`One or more amenities not found`);
+      }
     }
 
     // Construct Logement object with complete address, category, and amenities objects
     const createdLogement = new this.logementModel({
-        ...createLogementDto,
-        address: address.toObject(), // Convert to plain object
-        category: category.toObject(), // Convert to plain object
-        amenities,
+      ...createLogementDto,
+      address: address.toObject(), // Convert to plain object
+      category: category.toObject(), // Convert to plain object
+      amenities,
     });
 
     return createdLogement.save();
-}
-
-
+  }
 
   async findAll(language?: string): Promise<any[]> {
     const logements = await this.logementModel.find().populate('category').populate('address').exec();
@@ -65,14 +60,14 @@ export class LogementService {
 
   private applyTranslations(logement: any, language?: string): any {
     const logementObj = logement.toObject();
-    
+
     // Apply translations for the main logement fields
     if (language && logementObj.translations && logementObj.translations[language]) {
       const translatedFields = logementObj.translations[language];
       logementObj.nom = translatedFields.nom;
       logementObj.About = translatedFields.About;
     }
-    
+
     // Apply translations for the address
     if (logementObj.address && logementObj.address.translations && logementObj.address.translations[language]) {
       const translatedAddress = logementObj.address.translations[language];
@@ -81,13 +76,24 @@ export class LogementService {
       logementObj.address.state = translatedAddress.state;
       logementObj.address.country = translatedAddress.country;
     }
-    
+
     // Apply translations for the category
     if (logementObj.category && logementObj.category.translation && logementObj.category.translation[language]) {
       const translatedCategory = logementObj.category.translation[language];
       logementObj.category.name = translatedCategory.name;
     }
-    
+
+    // Apply translations for the amenities
+    if (logementObj.amenities && logementObj.amenities.length > 0) {
+      logementObj.amenities = logementObj.amenities.map(amenity => {
+        if (language && amenity.translations && amenity.translations[language]) {
+          amenity.name = amenity.translations[language];
+        }
+        delete amenity.translations;
+        return amenity;
+      });
+    }
+
     // Remove the translations objects
     delete logementObj.translations;
     if (logementObj.address) delete logementObj.address.translations;

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Amenity, AmenityDocument } from '../../schemas/amenity.schema';
-import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary2/cloudinary.service';
 import { Express } from 'express';
 
 @Injectable()
