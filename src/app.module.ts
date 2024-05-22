@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { AmenitiesModule } from './amenities/amenities.module';
 import { UserModule } from './user/user.module';
