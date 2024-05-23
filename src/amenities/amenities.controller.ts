@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Query, UseInterceptors } from '@nestjs/com
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AmenitiesService } from './amenities.service';
 import { Amenity } from '../schemas/amenity.schema';
+
 @Controller('amenities')
 export class AmenitiesController {
   constructor(private readonly amenitiesService: AmenitiesService) {}
