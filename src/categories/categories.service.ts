@@ -4,13 +4,13 @@ import { Model } from 'mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { Category, CategorieDocument } from 'src/schemas/category.schema';
+import { Category, CategoryDocument } from 'src/schemas/category.schema';
 
 
 @Injectable()
-export class CategorieService {
+export class CategoryService {
   constructor(
-    @InjectModel(Category.name) private categorieModel: Model<CategorieDocument>,
+    @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 

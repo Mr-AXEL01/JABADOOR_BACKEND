@@ -1,21 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { CategorieService } from './categories.service';
-import { CategorieController } from './categories.controller';
+import { CategoryService } from './categories.service';
+import { CategoryController } from './categories.controller';
 
 
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
-import { Categorie, CategorieSchema } from 'src/schemas/category.schema';
+import { Category, CategorySchema } from 'src/schemas/category.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Categorie.name, schema: CategorieSchema }]),
+    MongooseModule.forFeature([{ name: Category.name, schema: CategorySchema }]),
     CloudinaryModule
   ],
-  controllers: [CategorieController],
-  providers: [CategorieService ],
+  controllers: [CategoryController],
+  providers: [CategoryService ],
   exports: [MongooseModule], 
 })
-export class CategorieModule {}
+export class CategoryModule {}
 
