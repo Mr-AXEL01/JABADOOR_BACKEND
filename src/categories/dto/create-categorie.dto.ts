@@ -1,30 +1,32 @@
-import { IsString, IsObject, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
 
-class TranslationDto {
+export class CreateCategoryDto {
+  @IsNotEmpty()
   @IsString()
-  name: string;
-}
+  category_code: string;
 
-class TranslationsDto {
-  @ValidateNested()
-  @Type(() => TranslationDto)
-  ar: TranslationDto;
+  @IsNotEmpty()
+  @IsUrl()
+  image: string;
 
-  @ValidateNested()
-  @Type(() => TranslationDto)
-  fr: TranslationDto;
-}
+  @IsNotEmpty()
+  ar: { name: string };
 
-export class CreateCategorieDto {
+  @IsNotEmpty()
+  fr: { name: string };
+
+  @IsNotEmpty()
+  en: { name: string };
+
+  @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  type_service: string;
 
+  @IsNotEmpty()
   @IsString()
-  readonly image: string;
+  status: string;
 
-  @IsObject()
-  @ValidateNested()
-  @Type(() => TranslationsDto)
-  readonly translation: TranslationsDto;
+  @IsNotEmpty()
+  @IsString()
+  added_date: string;
 }
