@@ -10,7 +10,7 @@ import { AmenitiesModule } from './amenities/amenities.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { LogementModule } from './logement/logement.module';
-import { CategorieModule } from './categories/categories.module';
+import { CategoryModule } from './categories/categories.module';
 import { AddressModule } from './address/address.module';
 
 @Module({
@@ -22,8 +22,8 @@ import { AddressModule } from './address/address.module';
     UserModule, 
     AuthModule,
     LogementModule,
-     CategorieModule,
-      AddressModule ],
+    CategoryModule,
+    AddressModule ],
   controllers: [AppController],
   providers: [AppService],
 })

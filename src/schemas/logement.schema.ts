@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 import { Translation } from 'src/logement/interfaces/translation.interface';
  // Import Amenity schema
 import { Address, AddressSchema } from './address.schema';
-import { Categorie, CategorieSchema } from './category.schema';
+import { Category, CategorySchema } from '../schemas/category.schema';
 import { Amenity, AmenitySchema } from './amenity.schema';
 
 export enum Etat {
@@ -41,8 +41,8 @@ export class Logement extends Document {
   @Prop({ type: AddressSchema, required: true }) // Embed entire Address schema
   address: Address;
 
-  @Prop({ type: CategorieSchema, required: true }) // Embed entire Category schema
-  category: Categorie;
+  @Prop({ type: CategorySchema, required: true }) // Embed entire Category schema
+  category: Category;
 
   @Prop({ required: true })
   telephone: string;
