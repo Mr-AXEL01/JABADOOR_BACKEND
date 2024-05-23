@@ -1,22 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
-import { CategorieService } from './categories.service';
-
-import { CreateCategorieDto } from './dto/create-categorie.dto';
-import { Categorie } from 'src/schemas/category.schema';
-
+import { Controller, Post, Get, Query, Body } from '@nestjs/common';
+import { CategoryService } from './categories.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Controller('categories')
-export class CategorieController {
-    constructor(private readonly categorieService: CategorieService) {}
-   
-    @Get()
-  async findAll(): Promise<Categorie[]> {
-    
-    return this.categorieService.findAll();
-  }
-    @Post()
-  async create(@Body() createCategorieDto: CreateCategorieDto) {
-    return this.categorieService.create(createCategorieDto);
+export class CategoryController {
+  constructor(private readonly categoryService: CategoryService) {}
+
+  @Post()
+  async create(@Body() createCategoryDto: CreateCategoryDto): Promise<any> {
+    return this.categoryService.create(createCategoryDto);
   }
 
+  @Get()
+  async findAll(@Query('lang') lang: string): Promise<any[]> {
+    return this.categoryService.findAll(lang);
+  }
 }

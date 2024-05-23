@@ -1,34 +1,45 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export type CategorieDocument = Document & Categorie;
-
-class Translation {
-  @Prop({ type: String })
-  name: string;
-}
+export type CategoryDocument = Category & Document;
 
 @Schema()
-class Translations {
-  @Prop({ type: Translation, _id: false })
-  ar: Translation;
+export class Category extends Document {
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  category_code: string;
 
-  @Prop({ type: Translation, _id: false })
-  fr: Translation;
-}
-
-export const TranslationsSchema = SchemaFactory.createForClass(Translations);
-
-@Schema()
-export class Categorie {
-  @Prop({ unique: true })
-  name: string;
-
-  @Prop()
+  @Prop({ required: true })
   image: string;
 
-  @Prop({ type: TranslationsSchema, _id: false })
-  translation: Translations;
+  @Prop({
+    required: true,
+    type: { name: String },
+    _id: false // Exclude _id from subdocument
+  })
+  ar: { name: string };
+
+  @Prop({
+    required: true,
+    type: { name: String },
+    _id: false // Exclude _id from subdocument
+  })
+  fr: { name: string };
+
+  @Prop({
+    required: true,
+    type: { name: String },
+    _id: false // Exclude _id from subdocument
+  })
+  en: { name: string };
+  
+  @Prop({ required: true })
+  type_service: string;
+
+  @Prop({ required: true })
+  status: string;
+
+  @Prop({ required: true })
+  added_date: string;
 }
 
-export const CategorieSchema = SchemaFactory.createForClass(Categorie);
+export const CategorySchema = SchemaFactory.createForClass(Category);

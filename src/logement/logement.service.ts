@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { CreateLogementDto } from './dto/create-logement.dto';
 import { Address } from 'src/schemas/address.schema';
 import { Amenity } from 'src/schemas/amenity.schema';
-import { Categorie } from 'src/schemas/category.schema';
+import { Category } from 'src/schemas/category.schema';
 import { Logement } from 'src/schemas/logement.schema';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class LogementService {
   constructor(
     @InjectModel(Logement.name) private logementModel: Model<Logement>,
     @InjectModel(Address.name) private addressModel: Model<Address>,
-    @InjectModel(Categorie.name) private categoryModel: Model<Categorie>,
+    @InjectModel(Category.name) private categoryModel: Model<Category>,
     @InjectModel(Amenity.name) private amenityModel: Model<Amenity>,
   ) {}
 
