@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Query, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AmenitiesService } from './amenities.service';
-import { Amenity } from '../../schemas/amenity.schema';
+import { Amenity } from '../schemas/amenity.schema';
 import { Express } from 'express';
 
 @Controller('amenities')

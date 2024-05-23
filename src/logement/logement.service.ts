@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateLogementDto } from './dto/create-logement.dto';
-import { Address } from 'schemas/address.schema';
-import { Categorie } from 'schemas/category.schema';
-import { Amenity } from 'schemas/amenity.schema';
-import { Logement } from 'schemas/logement.schema';
+import { Address } from 'src/schemas/address.schema';
+import { Amenity } from 'src/schemas/amenity.schema';
+import { Categorie } from 'src/schemas/category.schema';
+import { Logement } from 'src/schemas/logement.schema';
 
 @Injectable()
 export class LogementService {

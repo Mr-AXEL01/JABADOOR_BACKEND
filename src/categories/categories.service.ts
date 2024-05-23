@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCategorieDto } from './dto/create-categorie.dto';
 
-import { Categorie, CategorieDocument } from 'schemas/category.schema';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { Categorie, CategorieDocument } from 'src/schemas/category.schema';
 
 
 @Injectable()

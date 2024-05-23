@@ -1,7 +1,7 @@
 // address.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Address, AddressSchema } from 'schemas/address.schema';
+import { Address, AddressSchema } from 'src/schemas/address.schema';
 import { AddressService } from './address.service';
 import { AddressController } from './address.controller';
 
