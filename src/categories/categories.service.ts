@@ -14,21 +14,24 @@ export class CategorieService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(createCategorieDto: CreateCategorieDto): Promise<Categorie> {
-    const { name, image, translation } = createCategorieDto;
-  
-    
-    
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    const { category_code, image, ar, fr, en, type_service, status, added_date } = createCategoryDto;
+
+    // Upload image to Cloudinary
     const uploadedImage = await this.cloudinaryService.uploadImage(image, 'Categories');
 
-    
-    const createdCategorie = new this.categorieModel({
-      name,
-      image: uploadedImage.secure_url, 
-      translation,
+    const createdCategory = new this.categoryModel({
+      category_code,
+      image: uploadedImage.secure_url,
+      ar,
+      fr,
+      en,
+      type_service,
+      status,
+      added_date,
     });
 
-    return createdCategorie.save();
+    return createdCategory.save();
   }
 
   async findAll(): Promise<Categorie[]> {
