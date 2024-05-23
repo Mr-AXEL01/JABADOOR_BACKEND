@@ -1,52 +1,174 @@
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+// user.dto.ts
+import { IsString, IsOptional, IsEmail, IsDateString, IsNumber, IsObject, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Address } from 'src/schemas/address.schema';
+
+class SocialMediaDto {
+  @IsString()
+  instagram: string;
+
+  @IsString()
+  facebook: string;
+}
 
 export class CreateUserDto {
-  
-
-  @IsNotEmpty()
   @IsString()
-  firstname: string;
-
-  @IsNotEmpty()
-  @IsString()
-  lastname: string;
-
-  @IsNotEmpty()
-  @IsString()
-  languageCode: string;
-
-  @IsNotEmpty()
-  @IsString()
-  city: string;
-
-  @IsNotEmpty()
-  @IsString()
-  country: string;
-
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  gsm: string;
+  user_code: string;
 
   @IsString()
-  address: string;
+  user_name: string;
+
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
 
   @IsString()
-  picture: string;
+  first_name: string;
 
-  @IsNotEmpty()
+  @IsString()
+  last_name: string;
+
+  @IsString()
+  gender: string;
+
+  @IsString()
+  birthdate: string;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => Address)
+  address: Address;
+
   @IsString()
   status: string;
 
-  @IsNotEmpty()
   @IsString()
-  addeddate: string;
+  gsm: string;
 
-  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
   @IsString()
-  @Matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/, { message: 'password too weak' })
-  password: string; // Add password field for authentication
+  language_default: string;
+
+  @IsNumber()
+  rate: number;
+
+  @IsNumber()
+  count_rate: number;
+
+  @IsDateString()
+  added_date: Date;
+
+  @IsOptional()
+  @IsString()
+  become_creator?: string;
+
+  @IsString()
+  type_service: string;
+
+  @IsOptional()
+  @IsString()
+  wishlistid?: string;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SocialMediaDto)
+  social_media: SocialMediaDto;
+
+  @IsString()
+  password: string;
+}
+
+export class UpdateUserDto {
+  @IsOptional()
+  @IsString()
+  user_code?: string;
+
+  @IsOptional()
+  @IsString()
+  user_name?: string;
+
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+
+  @IsOptional()
+  @IsString()
+  bio?: string;
+
+  @IsOptional()
+  @IsString()
+  first_name?: string;
+
+  @IsOptional()
+  @IsString()
+  last_name?: string;
+
+  @IsOptional()
+  @IsString()
+  gender?: string;
+
+  @IsOptional()
+  @IsString()
+  birthdate?: string;
+
+  @IsOptional()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => Address)
+  address?: Address;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
+
+  @IsOptional()
+  @IsString()
+  gsm?: string;
+
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  language_default?: string;
+
+  @IsOptional()
+  @IsNumber()
+  rate?: number;
+
+  @IsOptional()
+  @IsNumber()
+  count_rate?: number;
+
+  @IsOptional()
+  @IsDateString()
+  added_date?: Date;
+
+  @IsOptional()
+  @IsString()
+  become_creator?: string;
+
+  @IsOptional()
+  @IsString()
+  type_service?: string;
+
+  @IsOptional()
+  @IsString()
+  wishlistid?: string;
+
+  @IsOptional()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SocialMediaDto)
+  social_media?: SocialMediaDto;
+
+  @IsString()
+  password: string;
 }

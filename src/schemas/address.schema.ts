@@ -1,31 +1,21 @@
+// address.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Translation } from 'src/address/interfaces/translation.interface';
+import { AddressDetails } from 'src/address/interfaces/address.interface';
 
 export type AddressDocument = Address & Document;
 
 @Schema()
 export class Address {
-  @Prop({ required: true })
-  street: string;
+  @Prop({ required: true, type: Object }) // Add type: Object here
+  fr: AddressDetails;
 
-  @Prop({ required: true })
-  city: string;
+  @Prop({ required: true, type: Object }) // Add type: Object here
+  en: AddressDetails;
 
-  @Prop({ required: true })
-  state: string;
-
-  @Prop({ required: true })
-  country: string;
-
-  @Prop({ required: true })
-  postalCode: string;
-
-  @Prop({ required: true, type: Object })
-  translations: {
-    fr: Translation;
-    ar: Translation;
-  };
+  @Prop({ required: true, type: Object }) // Add type: Object here
+  ar: AddressDetails;
+  
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

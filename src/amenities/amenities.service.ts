@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-<<<<<<< HEAD
 
-=======
-import { Amenity, AmenityDocument } from '../../schemas/amenity.schema';
->>>>>>> 7f9626e36b5d5f5901ed669cc232ecb024ba4a7f
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Amenity, AmenityDocument } from 'src/schemas/amenity.schema';
 
