@@ -4,9 +4,9 @@ import { LogementService } from './logement.service';
 import { LogementController } from './logement.controller';
 
 import { AddressModule } from 'src/address/address.module';
-import { Logement, LogementSchema } from 'schemas/logement.schema';
 import { CategorieModule } from 'src/categories/categories.module';
 import { AmenitiesModule } from 'src/amenities/amenities.module';
+import { Logement, LogementSchema } from 'src/schemas/logement.schema';
 
 @Module({
   imports: [
