@@ -5,8 +5,8 @@ import { CategorieService } from './categories.service';
 import { CategorieController } from './categories.controller';
 
 
-import { Categorie, CategorieSchema } from 'schemas/category.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { Categorie, CategorieSchema } from 'src/schemas/category.schema';
 
 @Module({
   imports: [

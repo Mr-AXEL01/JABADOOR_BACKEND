@@ -4,8 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 // Import CloudinaryModule
 import { AmenitiesController } from './amenities.controller';
 import { AmenitiesService } from './amenities.service';
-import { Amenity, AmenitySchema } from 'schemas/amenity.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { Amenity, AmenitySchema } from 'src/schemas/amenity.schema';
 
 @Module({
   imports: [

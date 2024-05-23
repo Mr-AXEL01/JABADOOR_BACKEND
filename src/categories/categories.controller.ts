@@ -2,7 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } fro
 import { CategorieService } from './categories.service';
 
 import { CreateCategorieDto } from './dto/create-categorie.dto';
-import { Categorie } from 'schemas/category.schema';
+import { Categorie } from 'src/schemas/category.schema';
+
 
 @Controller('categories')
 export class CategorieController {
