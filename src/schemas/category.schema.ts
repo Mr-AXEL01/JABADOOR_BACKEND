@@ -1,4 +1,4 @@
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Schema, Prop, raw, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 export type CategoryDocument = Category & Document;
@@ -11,26 +11,24 @@ export class Category extends Document {
   @Prop({ required: true })
   image: string;
 
-  @Prop({
-    required: true,
-    type: { name: String },
-    _id: false // Exclude _id from subdocument
-  })
-  ar: { name: string };
+  @Prop( 
+    raw({
+      name: { type: String, unique: true },
+    }) 
+  ) 
+  ar: Record<string , any>;
 
-  @Prop({
-    required: true,
-    type: { name: String },
-    _id: false 
-  })
-  fr: { name: string };
+  @Prop(
+    raw({
+      name: { type: String, unique: true },
+    }))
+  fr: Record<string , any>;
 
-  @Prop({
-    required: true,
-    type: { name: String },
-    _id: false 
-  })
-  en: { name: string };
+  @Prop(
+    raw({
+      name: { type: String, unique: true },
+    }))
+  en: Record<string , any>;
   
   @Prop({ required: true })
   type_service: string;

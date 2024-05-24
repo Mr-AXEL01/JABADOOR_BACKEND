@@ -1,20 +1,18 @@
-import { Controller, Post, Body, Get, Query, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { AmenitiesService } from './amenities.service';
-import { Amenity } from '../schemas/amenity.schema';
+import { Controller, Post, Get, Query, Body } from '@nestjs/common';
+import { AmenityService } from './amenities.service';
+import { CreateAmenityDto } from './dto/create-amenity.dto';
 
 @Controller('amenities')
-export class AmenitiesController {
-  constructor(private readonly amenitiesService: AmenitiesService) {}
+export class AmenityController {
+  constructor(private readonly amenityService: AmenityService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('icon'))
-  async create(@Body() amenity: Amenity) {
-    return this.amenitiesService.create(amenity, amenity.icon);
+  async create(@Body() createAmenityDto: CreateAmenityDto) {
+    return this.amenityService.create(createAmenityDto);
   }
 
   @Get()
-  async findAll(@Query('language') language?: string) { 
-    return this.amenitiesService.findAll(language);
+  async findAll(@Query('lang') lang: string) { 
+    return this.amenityService.findAll(lang);
   }
 }
