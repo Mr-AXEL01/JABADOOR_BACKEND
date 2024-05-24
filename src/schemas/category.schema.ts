@@ -13,6 +13,7 @@ export class Category extends Document {
 
   @Prop({
     required: true,
+     unique: true,
     type: { name: String },
     _id: false // Exclude _id from subdocument
   })
@@ -21,12 +22,14 @@ export class Category extends Document {
   @Prop({
     required: true,
     type: { name: String },
+    unique: true,
     _id: false // Exclude _id from subdocument
   })
   fr: { name: string };
 
   @Prop({
     required: true,
+    unique: true,
     type: { name: String },
     _id: false // Exclude _id from subdocument
   })
