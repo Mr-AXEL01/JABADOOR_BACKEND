@@ -1,26 +1,34 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Schema, Prop, raw, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export type AmenityDocument = HydratedDocument<Amenity>;
+export type AmenityDocument = Amenity & Document;
 
 @Schema()
-export class Amenity {
-  @Prop({ required: true })
-  name: string;
+export class Amenity extends Document {
 
   @Prop({ required: true })
   icon: string;
 
-  @Prop({
-    type: Object,
-    of: String,
-    required: true,
-    _id: false
-  })
-  translations: {
-    fr?: string;
-    ar?: string;
-  };
+  @Prop(
+    raw({
+    name: { type: String, unique: true },
+  }))
+  ar: Record<string , any>;
+
+  @Prop(
+    raw({
+      name: { type: String, unique: true },
+    })
+  )
+  fr: Record<string , any>;
+
+  @Prop(
+    raw({
+      name: { type: String, unique: true },
+    })
+  )
+  en: Record<string , any>;
+  
 }
 
 export const AmenitySchema = SchemaFactory.createForClass(Amenity);

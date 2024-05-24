@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
-import { AmenitiesModule } from './amenities/amenities.module';
+import { AmenityModule } from './amenities/amenities.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { LogementModule } from './logement/logement.module';
@@ -18,12 +18,13 @@ import { AddressModule } from './address/address.module';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     CloudinaryModule,
-    AmenitiesModule,
+    AmenityModule,
     UserModule, 
     AuthModule,
     LogementModule,
     CategoryModule,
-    AddressModule ],
+    AddressModule,
+     ],
   controllers: [AppController],
   providers: [AppService],
 })

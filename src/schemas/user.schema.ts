@@ -1,14 +1,23 @@
 // user.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Address } from './address.schema';
 import { SocialMedia } from 'src/user/user.interface';
 
 export type UserDocument = User & Document;
 
+class WishlistItem {
+  @Prop({ required: true })
+  logement_code: string;
+
+  @Prop({ required: true })
+  wishadded_date: Date;
+}
+
 @Schema()
 export class User {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+ 
   user_code: string;
 
   @Prop({ required: true })
@@ -62,14 +71,16 @@ export class User {
   @Prop({ required: true })
   type_service: string;
 
-  @Prop({default: null} )
-  wishlistid?: string;
+
 
   @Prop({ required: true, type: Object })
   social_media: SocialMedia;
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ type: [WishlistItem], default: [] })
+  wishlist: WishlistItem[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

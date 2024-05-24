@@ -44,7 +44,7 @@ export class Logement extends Document {
   @Prop({ required: true })
   nom: string;
 
-  @Prop({ type: AddressSchema, required: true }) // Embed entire Address schema
+  @Prop({ type: Address, required: true }) // Embed entire Address schema
   address: Address;
 
   @Prop({ type: CategorySchema, required: true }) // Embed entire Category schema
