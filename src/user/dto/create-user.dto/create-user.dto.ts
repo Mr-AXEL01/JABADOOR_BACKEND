@@ -20,7 +20,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  avatar?: string;
+  image?: string;
 
   @IsOptional()
   @IsString()
@@ -82,6 +82,9 @@ export class CreateUserDto {
 
   @IsString()
   password: string;
+
+  @IsString()
+  address_code: string;
 }
 
 export class UpdateUserDto {

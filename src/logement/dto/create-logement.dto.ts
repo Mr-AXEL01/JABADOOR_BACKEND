@@ -2,16 +2,21 @@ import { IsString, IsNumber, IsBoolean, IsOptional, IsMongoId, IsNotEmpty, IsArr
 import { Translation } from '../interfaces/translation.interface';
 
 export class CreateLogementDto {
+
+  @IsNotEmpty()
+  @IsString()
+  logement_code: string;
+
   @IsString()
   nom: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly addressId: string;
+  readonly address_code: string;
 
   @IsString()
   @IsNotEmpty()
-  readonly categoryId: string;
+  readonly category_code: string;
 
   @IsArray()
   @IsOptional()
