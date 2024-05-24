@@ -22,6 +22,11 @@ export class UserController {
   async removeFromWishlist(@Body('user_code') userCode: string, @Body('logement_code') logementCode: string): Promise<User> {
     return this.userService.removeFromWishlist(userCode, logementCode);
   }
+
+  @Get('wishlist')
+  async getWishlist(@Body('user_code') userCode: string): Promise<any[]> {
+    return this.userService.getWishlist(userCode);
+  }
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAllUsers();

@@ -13,9 +13,10 @@ import { Logement, LogementDocument } from 'src/schemas/logement.schema';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Address.name) private addressModel: Model<AddressDocument>,
+
     @InjectModel(Logement.name) private logementModel: Model<LogementDocument>,
     private readonly cloudinaryService: CloudinaryService,
-
+    
   ) { }
 
 
