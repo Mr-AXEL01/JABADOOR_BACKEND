@@ -47,4 +47,12 @@ export class AmenityService {
       };
     });
   }
+
+  async findOne(id: string): Promise<Amenity> {
+    const amenity = await this.amenityModel.findById(id).exec();
+    if (!amenity) {
+      throw new NotFoundException(`Amenity with id ${id} not found`);
+    }
+    return amenity;
+  }
 }
