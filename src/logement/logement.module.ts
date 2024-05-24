@@ -5,7 +5,7 @@ import { LogementController } from './logement.controller';
 
 import { AddressModule } from 'src/address/address.module';
 import { CategoryModule } from 'src/categories/categories.module';
-import { AmenitiesModule } from 'src/amenities/amenities.module';
+import { AmenityModule } from 'src/amenities/amenities.module';
 import { Logement, LogementSchema } from 'src/schemas/logement.schema';
 
 @Module({
@@ -13,7 +13,7 @@ import { Logement, LogementSchema } from 'src/schemas/logement.schema';
     MongooseModule.forFeature([{ name: Logement.name, schema: LogementSchema }]),
     AddressModule, 
     CategoryModule,
-    AmenitiesModule,
+    AmenityModule,
   ],
   controllers: [LogementController],
   providers: [LogementService],
