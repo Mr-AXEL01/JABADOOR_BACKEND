@@ -35,6 +35,12 @@ export interface Image {
 
 @Schema()
 export class Logement extends Document {
+
+
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  logement_code: string;
+
+
   @Prop({ required: true })
   nom: string;
 

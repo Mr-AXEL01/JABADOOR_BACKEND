@@ -7,6 +7,9 @@ export type AddressDocument = Address & Document;
 
 @Schema()
 export class Address {
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  address_code: string;
+
   @Prop({ required: true, type: Object }) // Add type: Object here
   fr: AddressDetails;
 

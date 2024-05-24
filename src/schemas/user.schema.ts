@@ -15,7 +15,7 @@ export class User {
   user_name: string;
 
   @Prop()
-  avatar?: string;
+  image?: string;
 
   @Prop()
   bio?: string;
@@ -62,7 +62,7 @@ export class User {
   @Prop({ required: true })
   type_service: string;
 
-  @Prop()
+  @Prop({default: null} )
   wishlistid?: string;
 
   @Prop({ required: true, type: Object })

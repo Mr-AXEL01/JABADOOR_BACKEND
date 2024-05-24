@@ -17,18 +17,18 @@ export class LogementService {
   ) {}
 
   async create(createLogementDto: CreateLogementDto): Promise<Logement> {
-    const { addressId, categoryId, amenitiesIds } = createLogementDto;
+    const { address_code, category_code, amenitiesIds } = createLogementDto;
 
     // Fetch address
-    const address = await this.addressModel.findById(addressId).exec();
+    const address = await this.addressModel.findOne({address_code}).exec();
     if (!address) {
-      throw new NotFoundException(`Address with ID ${addressId} not found`);
+      throw new NotFoundException(`Address with ID ${address_code} not found`);
     }
 
     // Fetch category
-    const category = await this.categoryModel.findById(categoryId).exec();
+    const category = await this.categoryModel.findOne({category_code}).exec();
     if (!category) {
-      throw new NotFoundException(`Category with ID ${categoryId} not found`);
+      throw new NotFoundException(`Category with ID ${category_code} not found`);
     }
 
     // Fetch amenities if provided

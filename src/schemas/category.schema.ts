@@ -11,6 +11,7 @@ export class Category extends Document {
   @Prop({ required: true })
   image: string;
 
+
   @Prop( 
     raw({
       name: { type: String, unique: true },
@@ -29,6 +30,7 @@ export class Category extends Document {
       name: { type: String, unique: true },
     }))
   en: Record<string , any>;
+
   
   @Prop({ required: true })
   type_service: string;
