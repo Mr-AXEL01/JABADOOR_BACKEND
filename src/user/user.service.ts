@@ -6,14 +6,14 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto/create-user.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Address, AddressDocument } from 'src/schemas/address.schema';
-import { Logement } from 'src/schemas/logement.schema';
+import { Logement, LogementDocument } from 'src/schemas/logement.schema';
 
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Address.name) private addressModel: Model<AddressDocument>,
-    @InjectModel(Logement.name) private loge: Model<AddressDocument>,
+    @InjectModel(Logement.name) private logementModel: Model<LogementDocument>,
     private readonly cloudinaryService: CloudinaryService,
 
   ) { }

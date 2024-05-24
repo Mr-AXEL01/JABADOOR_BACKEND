@@ -6,6 +6,8 @@ import { Address, AddressSchema } from './address.schema';
 import { Category, CategorySchema } from '../schemas/category.schema';
 import { Amenity, AmenitySchema } from './amenity.schema';
 
+
+export type LogementDocument = Logement & Document;
 export enum Etat {
   BON = 'Bon état',
   NEUF = 'Neuf',
