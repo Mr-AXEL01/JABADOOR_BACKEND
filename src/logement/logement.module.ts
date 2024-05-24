@@ -19,3 +19,4 @@ import { Logement, LogementSchema } from 'src/schemas/logement.schema';
   providers: [LogementService],
 })
 export class LogementModule {}
+  

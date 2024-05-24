@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
@@ -14,10 +14,13 @@ export class AmenityService {
 
   async create(createAmenityDto: CreateAmenityDto): Promise<Amenity> {
     const { icon, ar, fr, en } = createAmenityDto;
+
     const uploadIcon = await this.cloudinaryService.uploadImage(icon, 'amenities');
     const createdAmenity = new this.amenityModel({
-      ...createAmenityDto,
       icon: uploadIcon.secure_url,
+      ar: { name: ar.name },
+      fr: { name: fr.name },
+      en: { name: en.name },
     });
 
     return createdAmenity.save();
@@ -46,5 +49,13 @@ export class AmenityService {
         icon: amenity.icon,
       };
     });
+  }
+
+  async findOne(id: string): Promise<Amenity> {
+    const amenity = await this.amenityModel.findById(id).exec();
+    if (!amenity) {
+      throw new NotFoundException(`Amenity with id ${id} not found`);
+    }
+    return amenity;
   }
 }
