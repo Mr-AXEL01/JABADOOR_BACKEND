@@ -21,14 +21,14 @@ export class Category extends Document {
   @Prop({
     required: true,
     type: { name: String },
-    _id: false // Exclude _id from subdocument
+    _id: false 
   })
   fr: { name: string };
 
   @Prop({
     required: true,
     type: { name: String },
-    _id: false // Exclude _id from subdocument
+    _id: false 
   })
   en: { name: string };
   
