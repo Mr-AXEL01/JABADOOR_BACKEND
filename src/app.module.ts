@@ -26,7 +26,7 @@ import { TransactionsController } from './transactions/transactions.controller';
     CategoryModule,
     AddressModule,
      ],
-  controllers: [AppController, TransactionsController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
