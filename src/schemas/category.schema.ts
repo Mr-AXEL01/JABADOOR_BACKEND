@@ -11,7 +11,6 @@ export class Category extends Document {
   @Prop({ required: true })
   image: string;
 
-
   @Prop( 
     raw({
       name: { type: String, unique: true },

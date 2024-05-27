@@ -23,7 +23,8 @@ import { AddressModule } from './address/address.module';
     AuthModule,
     LogementModule,
     CategoryModule,
-    AddressModule ],
+    AddressModule,
+     ],
   controllers: [AppController],
   providers: [AppService],
 })

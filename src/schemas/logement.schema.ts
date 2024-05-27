@@ -6,6 +6,7 @@ import { Address, AddressSchema } from './address.schema';
 import { Category, CategorySchema } from '../schemas/category.schema';
 import { Amenity, AmenitySchema } from './amenity.schema';
 
+export type LogementDocument = Logement & Document;
 export enum Etat {
   BON = 'Bon état',
   NEUF = 'Neuf',
@@ -44,7 +45,7 @@ export class Logement extends Document {
   @Prop({ required: true })
   nom: string;
 
-  @Prop({ type: AddressSchema, required: true }) // Embed entire Address schema
+  @Prop({ type: Address, required: true }) // Embed entire Address schema
   address: Address;
 
   @Prop({ type: CategorySchema, required: true }) // Embed entire Category schema

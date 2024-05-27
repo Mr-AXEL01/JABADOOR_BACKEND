@@ -13,7 +13,20 @@ export class UserController {
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.createUser(createUserDto);
   }
+  @Put('wishlist')
+  async addToWishlist(@Body('user_code') userCode: string, @Body('logement_code') logementCode: string): Promise<User> {
+    return this.userService.addToWishlist(userCode, logementCode);
+  }
 
+  @Delete('wishlist')
+  async removeFromWishlist(@Body('user_code') userCode: string, @Body('logement_code') logementCode: string): Promise<User> {
+    return this.userService.removeFromWishlist(userCode, logementCode);
+  }
+
+  @Get('wishlist')
+  async getWishlist(@Body('user_code') userCode: string): Promise<any[]> {
+    return this.userService.getWishlist(userCode);
+  }
   @Get()
   async findAll(): Promise<User[]> {
     return this.userService.findAllUsers();
