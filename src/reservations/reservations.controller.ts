@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { ReservationsService } from '../services/reservations.service';
-import { CreateReservationDto } from '../dto/create-reservation.dto';
+import { ReservationsService } from './reservations.service';
+import { CreateReservationDto } from './dto/create-reservation.dto';
 import { Reservation } from '../schemas/reservation.schema';
 
 @Controller('reservations')
@@ -16,5 +16,5 @@ export class ReservationsController {
   async findAll(): Promise<Reservation[]> {
     return this.reservationsService.findAll();
   }
-  
+
 }
