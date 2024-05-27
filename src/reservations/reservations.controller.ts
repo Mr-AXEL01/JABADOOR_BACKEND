@@ -16,5 +16,4 @@ export class ReservationsController {
   async findAll(): Promise<Reservation[]> {
     return this.reservationsService.findAll();
   }
-
 }
