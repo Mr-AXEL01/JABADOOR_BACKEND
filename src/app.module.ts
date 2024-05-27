@@ -14,6 +14,7 @@ import { CategoryModule } from './categories/categories.module';
 import { AddressModule } from './address/address.module';
 import { TransactionsController } from './transactions/transactions.controller';
 import { TransactionsService } from './transactions/transactions.service';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TransactionsService } from './transactions/transactions.service';
     LogementModule,
     CategoryModule,
     AddressModule,
+    TransactionsModule,
      ],
   controllers: [AppController],
   providers: [AppService],
