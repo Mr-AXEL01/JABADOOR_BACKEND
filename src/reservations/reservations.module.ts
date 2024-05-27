@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ReservationsController } from './controllers/reservations.controller';
-import { ReservationsService } from './services/reservations.service';
-import { Reservation, ReservationSchema } from './schemas/reservation.schema';
+import { ReservationsController } from './reservations.controller';
+import { ReservationsService } from './reservations.service';
+import { Reservation, ReservationSchema } from '../schemas/reservation.schema';
 
 @Module({
   imports: [

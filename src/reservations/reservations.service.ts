@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateReservationDto } from '../dto/create-reservation.dto';
+import { CreateReservationDto } from './dto/create-reservation.dto';
 import { Reservation, ReservationDocument } from '../schemas/reservation.schema';
 
 @Injectable()
