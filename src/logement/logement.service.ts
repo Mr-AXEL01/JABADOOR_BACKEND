@@ -1,32 +1,34 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateLogementDto } from './dto/create-logement.dto';
-import { Address } from 'src/schemas/address.schema';
-import { Amenity } from 'src/schemas/amenity.schema';
-import { Category } from 'src/schemas/category.schema';
-import { Logement } from 'src/schemas/logement.schema';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { Address, AddressDocument } from 'src/schemas/address.schema';
+import { Amenity, AmenityDocument } from 'src/schemas/amenity.schema';
+import { Category, CategoryDocument } from 'src/schemas/category.schema';
+import { Logement, LogementDocument } from 'src/schemas/logement.schema';
 
 @Injectable()
 export class LogementService {
   constructor(
-    @InjectModel(Logement.name) private logementModel: Model<Logement>,
-    @InjectModel(Address.name) private addressModel: Model<Address>,
-    @InjectModel(Category.name) private categoryModel: Model<Category>,
-    @InjectModel(Amenity.name) private amenityModel: Model<Amenity>,
+    @InjectModel(Logement.name) private readonly logementModel: Model<LogementDocument>,
+    @InjectModel(Address.name) private readonly addressModel: Model<AddressDocument>,
+    @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
+    @InjectModel(Amenity.name) private readonly amenityModel: Model<AmenityDocument>,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async create(createLogementDto: CreateLogementDto): Promise<Logement> {
-    const { address_code, category_code, amenitiesIds } = createLogementDto;
+    const { address_code, category_code, amenitiesIds, images } = createLogementDto;
 
     // Fetch address
-    const address = await this.addressModel.findOne({address_code}).exec();
+    const address = await this.addressModel.findOne({ address_code }).exec();
     if (!address) {
       throw new NotFoundException(`Address with ID ${address_code} not found`);
     }
 
     // Fetch category
-    const category = await this.categoryModel.findOne({category_code}).exec();
+    const category = await this.categoryModel.findOne({ category_code }).exec();
     if (!category) {
       throw new NotFoundException(`Category with ID ${category_code} not found`);
     }
@@ -42,16 +44,30 @@ export class LogementService {
       }
     }
 
+    // Upload images to Cloudinary
+    const uploadedImages = [];
+    for (const image of images) {
+      const uploadedImage = await this.cloudinaryService.uploadImage(image, 'logements');
+      uploadedImages.push({
+        public_id: uploadedImage.public_id,
+        url: uploadedImage.url,
+        secure_url: uploadedImage.secure_url,
+        format: uploadedImage.format,
+      });
+    }
+
     // Construct Logement object with complete address, category, and amenities objects
     const createdLogement = new this.logementModel({
       ...createLogementDto,
       address: address.toObject(), // Convert to plain object
       category: category.toObject(), // Convert to plain object
       amenities,
+      image: uploadedImages, // Set the uploaded images array
     });
 
     return createdLogement.save();
   }
+
 
   async findAll(language?: string): Promise<any[]> {
     const logements = await this.logementModel.find().populate('category').populate('address').exec();

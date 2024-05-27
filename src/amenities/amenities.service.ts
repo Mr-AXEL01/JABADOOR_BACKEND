@@ -30,7 +30,6 @@ export class AmenityService {
     const amenities = await this.amenityModel.find().exec();
     return amenities.map(amenity => {
       let name;
-      // Return name based on the language that the client is requesting
       switch (lang) {
         case 'ar':
           name = amenity.ar.name;

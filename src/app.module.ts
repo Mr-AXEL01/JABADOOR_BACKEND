@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { LogementModule } from './logement/logement.module';
 import { CategoryModule } from './categories/categories.module';
 import { AddressModule } from './address/address.module';
+import { FilterModule } from './filter/filter.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AddressModule } from './address/address.module';
     LogementModule,
     CategoryModule,
     AddressModule,
+    FilterModule,
      ],
   controllers: [AppController],
   providers: [AppService],
