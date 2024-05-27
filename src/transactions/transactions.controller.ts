@@ -12,5 +12,10 @@ export class TransactionsController {
     return this.transactionsService.create(createTransactionDto);
   }
 
+  @Get()
+  async findAll(): Promise<Transaction[]> {
+    return this.transactionsService.findAll();
+  }
+
   
 }
