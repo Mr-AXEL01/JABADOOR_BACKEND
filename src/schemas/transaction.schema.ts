@@ -6,7 +6,7 @@ export type TransactionDocument = Transaction & Document;
 
 @Schema()
 export class Transaction {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
   transaction_code: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Reservation', required: true })
