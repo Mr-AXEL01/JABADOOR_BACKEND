@@ -16,6 +16,7 @@ import { TransactionsController } from './transactions/transactions.controller';
 import { TransactionsService } from './transactions/transactions.service';
 import { TransactionsModule } from './transactions/transactions.module';
 import { ReservationsService } from './reservations/reservations.service';
+import { ReservationsController } from './reservations/reservations.controller';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { ReservationsService } from './reservations/reservations.service';
     AddressModule,
     TransactionsModule,
      ],
-  controllers: [AppController],
+  controllers: [AppController, ReservationsController],
   providers: [AppService, ReservationsService],
 })
 export class AppModule {}
