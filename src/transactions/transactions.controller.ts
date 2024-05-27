@@ -17,5 +17,8 @@ export class TransactionsController {
     return this.transactionsService.findAll();
   }
 
-  
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Transaction> {
+    return this.transactionsService.findOne(id);
+  }
 }
