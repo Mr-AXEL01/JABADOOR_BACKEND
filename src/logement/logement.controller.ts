@@ -33,6 +33,12 @@ export class LogementController {
   //   return this.logementService.createMany(createLogementDtos);
   // }
 
+
+  @Get('search')
+  async searchLogements(@Query('query') query: string): Promise<Logement[]> {
+    return this.logementService.searchLogement(query);
+  }
+
   @Get()
   async findAll(@Query('lang') language?: string) {
     return this.logementService.findAll(language);
