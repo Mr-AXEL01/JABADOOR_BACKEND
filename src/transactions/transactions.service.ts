@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
@@ -13,6 +13,14 @@ export class TransactionsService {
   ) {}
 
   async create(createTransactionDto: CreateTransactionDto): Promise<Transaction> {
+    const { transaction_code } = createTransactionDto;
+
+    // be sure that the transaction_code is unique 
+    const existingTransaction = await this.transactionModel.findOne({ transaction_code }).exec();
+    if (existingTransaction) {
+      throw new ConflictException('transaction code must be unique');
+    }
+
     const reservation = await this.reservationModel.findById(createTransactionDto.reservation).exec();
     if (!reservation) {
       throw new NotFoundException(`Reservation with id ${createTransactionDto.reservation} not found`);
