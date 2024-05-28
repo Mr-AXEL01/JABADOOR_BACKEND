@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateLogementDto } from './dto/create-logement.dto';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Address, AddressDocument } from 'src/schemas/address.schema';
@@ -16,7 +16,38 @@ export class LogementService {
     @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
     @InjectModel(Amenity.name) private readonly amenityModel: Model<AmenityDocument>,
     private readonly cloudinaryService: CloudinaryService,
-  ) {}
+  ) { }
+
+
+
+
+  async findByFilters(
+    amenitiesIds: string[], 
+    category_code: string, 
+    minPrice: number, 
+    maxPrice: number
+  ): Promise<Logement[]> {
+    const filter: any = {
+      status: 'ACTIVE',
+      price: { $gte: minPrice, $lte: maxPrice },
+    };
+  
+    if (amenitiesIds && amenitiesIds.length > 0) {
+      filter['amenities._id'] = { $in: amenitiesIds };
+    }
+  
+    if (category_code) {
+      filter['category.category_code'] = category_code;
+    }
+  
+    console.log('Constructed filter:', JSON.stringify(filter, null, 2));
+  
+    const results = await this.logementModel.find(filter).exec();
+    
+    console.log('Number of results:', results.length);
+    return results;
+  }
+  
 
   async create(createLogementDto: CreateLogementDto): Promise<Logement> {
     const { address_code, category_code, amenitiesIds, images } = createLogementDto;

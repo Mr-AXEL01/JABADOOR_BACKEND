@@ -25,6 +25,9 @@ export class CreateLogementDto {
   @IsString()
   telephone: string;
 
+  @IsOptional()
+  @IsNumber()
+  price?: number;
 
   @IsArray()
   @ArrayNotEmpty()

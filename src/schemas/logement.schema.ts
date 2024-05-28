@@ -54,8 +54,7 @@ export class Logement extends Document {
   @Prop({ required: true })
   telephone: string;
 
-  @Prop({ required: true })
-  nbrChambres: number;
+
 
   @Prop()
   bedrooms?: number;
@@ -98,6 +97,9 @@ export class Logement extends Document {
 
   @Prop({ default: true })
   valid: boolean;
+
+  @Prop({ required: true })
+  price: number;
 
   @Prop()
   workingTime: string;
