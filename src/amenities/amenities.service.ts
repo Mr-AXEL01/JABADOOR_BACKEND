@@ -52,17 +52,18 @@ export class AmenityService {
       }
       return {
         _id: amenity._id,
+        amenity_code: amenity.amenity_code,
         name: name,
         icon: amenity.icon,
       };
     });
   }
 
-  async findOne(id: string): Promise<Amenity> {
-    const amenity = await this.amenityModel.findById(id).exec();
-    if (!amenity) {
-      throw new NotFoundException(`Amenity with id ${id} not found`);
-    }
-    return amenity;
-  }
+  // async findOne(id: string): Promise<Amenity> {
+  //   const amenity = await this.amenityModel.findById(id).exec();
+  //   if (!amenity) {
+  //     throw new NotFoundException(`Amenity with id ${id} not found`);
+  //   }
+  //   return amenity;
+  // }
 }
