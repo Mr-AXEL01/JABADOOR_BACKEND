@@ -23,7 +23,7 @@ export class Reservation {
   user_code: string;
 
   @Prop({ required: true })
-  logement_code: string;
+  host_code: string;
 
   @Prop({ required: true })
   check_in_date: Date;
