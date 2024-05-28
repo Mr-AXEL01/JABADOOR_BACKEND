@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Translation } from 'src/logement/interfaces/translation.interface';
+
  // Import Amenity schema
 import { Address, AddressSchema } from './address.schema';
 import { Category, CategorySchema } from '../schemas/category.schema';
 import { Amenity, AmenitySchema } from './amenity.schema';
+import { Translation } from 'src/host/interfaces/translation.interface';
 
-export type LogementDocument = Logement & Document;
+export type HostDocument = Host & Document;
 export enum Etat {
   BON = 'Bon état',
   NEUF = 'Neuf',
@@ -34,12 +35,12 @@ export interface Image {
   format: string;
 }
 
-@Schema()
-export class Logement extends Document {
+@Schema({ collection : "logements" })
+export class Host extends Document {
 
 
   @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
-  logement_code: string;
+  Host_code: string;
 
 
   @Prop({ required: true })
@@ -120,4 +121,4 @@ export class Logement extends Document {
   amenities: Amenity[]; // Define array of amenities
 }
 
-export const LogementSchema = SchemaFactory.createForClass(Logement);
+export const HostSchema = SchemaFactory.createForClass(Host);

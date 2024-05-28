@@ -8,7 +8,7 @@ export type UserDocument = User & Document;
 
 class WishlistItem {
   @Prop({ required: true })
-  logement_code: string;
+  Host_code: string;
 
   @Prop({ required: true })
   wishadded_date: Date;

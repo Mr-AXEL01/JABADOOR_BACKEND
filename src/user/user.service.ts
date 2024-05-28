@@ -6,7 +6,7 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 import { CreateUserDto, UpdateUserDto } from './dto/create-user.dto/create-user.dto';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { Address, AddressDocument } from 'src/schemas/address.schema';
-import { Logement, LogementDocument } from 'src/schemas/logement.schema';
+import { Host, HostDocument } from 'src/schemas/Host.schema';
 
 
 @Injectable()
@@ -14,7 +14,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Address.name) private addressModel: Model<AddressDocument>,
 
-    @InjectModel(Logement.name) private logementModel: Model<LogementDocument>,
+    @InjectModel(Host.name) private HostModel: Model<HostDocument>,
     private readonly cloudinaryService: CloudinaryService,
     
   ) { }
@@ -56,36 +56,36 @@ export class UserService {
 
 
 
-  async addToWishlist(userCode: string, logementCode: string): Promise<User> {
+  async addToWishlist(userCode: string, HostCode: string): Promise<User> {
     const user = await this.userModel.findOne({ user_code: userCode }).exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const wishlistExists = user.wishlist.some(item => item.logement_code === logementCode);
+    const wishlistExists = user.wishlist.some(item => item.Host_code === HostCode);
     if (wishlistExists) {
-      throw new ConflictException('Logement already exists in the wishlist');
+      throw new ConflictException('Host already exists in the wishlist');
     }
 
     const wishlistItem = {
-      logement_code: logementCode,
+      Host_code: HostCode,
       wishadded_date: new Date(),
     };
 
     user.wishlist.push(wishlistItem);
     return user.save();
   }
-  async removeFromWishlist(userCode: string, logementCode: string): Promise<User> {
+  async removeFromWishlist(userCode: string, HostCode: string): Promise<User> {
     const user = await this.userModel.findOne({ user_code: userCode }).exec();
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
     const initialWishlistLength = user.wishlist.length;
-    user.wishlist = user.wishlist.filter(item => item.logement_code !== logementCode);
+    user.wishlist = user.wishlist.filter(item => item.Host_code !== HostCode);
 
     if (user.wishlist.length === initialWishlistLength) {
-      throw new NotFoundException('Logement not found in the wishlist');
+      throw new NotFoundException('Host not found in the wishlist');
     }
 
     return user.save();
@@ -98,10 +98,10 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    const logementCodes = user.wishlist.map(item => item.logement_code);
-    const logements = await this.logementModel.find({ logement_code: { $in: logementCodes } }).exec();
+    const HostCodes = user.wishlist.map(item => item.Host_code);
+    const Hosts = await this.HostModel.find({ Host_code: { $in: HostCodes } }).exec();
     
-    return logements;
+    return Hosts;
   }
 
   async findAllUsers(): Promise<User[]> {

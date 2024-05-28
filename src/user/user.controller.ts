@@ -14,13 +14,13 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
   @Put('wishlist')
-  async addToWishlist(@Body('user_code') userCode: string, @Body('logement_code') logementCode: string): Promise<User> {
-    return this.userService.addToWishlist(userCode, logementCode);
+  async addToWishlist(@Body('user_code') userCode: string, @Body('Host_code') HostCode: string): Promise<User> {
+    return this.userService.addToWishlist(userCode, HostCode);
   }
 
   @Delete('wishlist')
-  async removeFromWishlist(@Body('user_code') userCode: string, @Body('logement_code') logementCode: string): Promise<User> {
-    return this.userService.removeFromWishlist(userCode, logementCode);
+  async removeFromWishlist(@Body('user_code') userCode: string, @Body('Host_code') HostCode: string): Promise<User> {
+    return this.userService.removeFromWishlist(userCode, HostCode);
   }
 
   @Get('wishlist')

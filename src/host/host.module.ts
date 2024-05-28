@@ -1,24 +1,24 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LogementService } from './logement.service';
-import { LogementController } from './logement.controller';
+import { HostService } from './Host.service';
+import { HostController } from './Host.controller';
 
 import { AddressModule } from 'src/address/address.module';
 import { CategoryModule } from 'src/categories/categories.module';
 import { AmenityModule } from 'src/amenities/amenities.module';
-import { Logement, LogementSchema } from 'src/schemas/logement.schema';
+import { Host, HostSchema } from 'src/schemas/Host.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Logement.name, schema: LogementSchema }]),
+    MongooseModule.forFeature([{ name: Host.name, schema: HostSchema }]),
     AddressModule, 
     CategoryModule,
     AmenityModule,
     CloudinaryModule
   ],
-  controllers: [LogementController],
-  providers: [LogementService],
+  controllers: [HostController],
+  providers: [HostService],
 })
-export class LogementModule {}
+export class HostModule {}
   

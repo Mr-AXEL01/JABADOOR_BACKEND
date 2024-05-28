@@ -26,7 +26,7 @@ export class CreateReservationDto {
 
   @IsNotEmpty()
   @IsString()
-  logement_code: string;
+  Host_code: string;
 
   @IsNotEmpty()
   @IsDateString()

@@ -1,11 +1,11 @@
 import { IsString, IsNumber, IsBoolean, IsOptional, IsMongoId, IsNotEmpty, IsArray, ArrayNotEmpty } from 'class-validator';
 import { Translation } from '../interfaces/translation.interface';
 
-export class CreateLogementDto {
+export class CreateHostDto {
 
   @IsNotEmpty()
   @IsString()
-  logement_code: string;
+  Host_code: string;
 
   @IsString()
   nom: string;
