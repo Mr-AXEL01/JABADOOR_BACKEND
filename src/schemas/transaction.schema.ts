@@ -1,32 +1,16 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Reservation } from './reservation.schema';
 
 export type TransactionDocument = Transaction & Document;
 
-class Host {
-  @Prop({ required: true })
-  host_code: string;
-
-  @Prop({ required: true })
-  host_price_per_night: number;
-
-  @Prop({ required: true })
-  quantity: number;
-}
-
 @Schema()
 export class Transaction {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
   transaction_code: string;
 
-  @Prop({ required: true })
-  user_code: string;
-
-  @Prop({ required: true })
-  logement_code: string;
-
-  @Prop({ type: [Host], required: true })
-  host_list: Host[];
+  @Prop({ type: Types.ObjectId, ref: 'Reservation', required: true })
+  reservation: Types.ObjectId;
 
   @Prop({ required: true })
   total_amount_HT: number;

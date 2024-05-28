@@ -16,7 +16,7 @@ class Guests {
 
 @Schema()
 export class Reservation {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
   reservation_code: string;
 
   @Prop({ required: true })
