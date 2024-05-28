@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
@@ -13,10 +13,17 @@ export class AmenityService {
   ) {}
 
   async create(createAmenityDto: CreateAmenityDto): Promise<Amenity> {
-    const { icon, ar, fr, en } = createAmenityDto;
+    const { amenity_code, icon, ar, fr, en } = createAmenityDto;
+
+    // be sure that the amenity_code is unique 
+    const existingAmenity = await this.amenityModel.findOne({ amenity_code }).exec();
+    if (existingAmenity) {
+      throw new ConflictException('Amenity code must be unique');
+    }
 
     const uploadIcon = await this.cloudinaryService.uploadImage(icon, 'amenities');
     const createdAmenity = new this.amenityModel({
+      amenity_code,
       icon: uploadIcon.secure_url,
       ar: { name: ar.name },
       fr: { name: fr.name },
