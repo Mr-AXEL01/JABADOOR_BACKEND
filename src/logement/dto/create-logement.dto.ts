@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsBoolean, IsOptional, IsMongoId, IsNotEmpty, IsArray } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsOptional, IsMongoId, IsNotEmpty, IsArray, ArrayNotEmpty } from 'class-validator';
 import { Translation } from '../interfaces/translation.interface';
 
 export class CreateLogementDto {
@@ -24,6 +24,14 @@ export class CreateLogementDto {
 
   @IsString()
   telephone: string;
+
+  @IsOptional()
+  @IsNumber()
+  price?: number;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  images: string[];
 
   @IsOptional()
   @IsNumber()

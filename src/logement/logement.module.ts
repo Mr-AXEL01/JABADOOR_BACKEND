@@ -7,6 +7,7 @@ import { AddressModule } from 'src/address/address.module';
 import { CategoryModule } from 'src/categories/categories.module';
 import { AmenityModule } from 'src/amenities/amenities.module';
 import { Logement, LogementSchema } from 'src/schemas/logement.schema';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Logement, LogementSchema } from 'src/schemas/logement.schema';
     AddressModule, 
     CategoryModule,
     AmenityModule,
+    CloudinaryModule
   ],
   controllers: [LogementController],
   providers: [LogementService],
