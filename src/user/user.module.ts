@@ -5,12 +5,12 @@ import { UserController } from './user.controller';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 import { AddressModule } from 'src/address/address.module';
-import { Logement, LogementSchema } from 'src/schemas/logement.schema';
+import { Host, HostSchema } from 'src/schemas/Host.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema },
-      { name: Logement.name, schema: LogementSchema }
+      { name: Host.name, schema: HostSchema }
     ]
 
       

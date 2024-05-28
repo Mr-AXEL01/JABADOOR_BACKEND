@@ -1,17 +1,20 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateLogementDto } from './dto/create-logement.dto';
+
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { Address, AddressDocument } from 'src/schemas/address.schema';
 import { Amenity, AmenityDocument } from 'src/schemas/amenity.schema';
 import { Category, CategoryDocument } from 'src/schemas/category.schema';
-import { Logement, LogementDocument } from 'src/schemas/logement.schema';
+
+import { CreateHostDto } from './dto/create-host.dto';
+import { Host, HostDocument } from 'src/schemas/host.schema';
+
 
 @Injectable()
-export class LogementService {
+export class HostService {
   constructor(
-    @InjectModel(Logement.name) private readonly logementModel: Model<LogementDocument>,
+    @InjectModel(Host.name) private readonly HostModel: Model<HostDocument>,
     @InjectModel(Address.name) private readonly addressModel: Model<AddressDocument>,
     @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
     @InjectModel(Amenity.name) private readonly amenityModel: Model<AmenityDocument>,
@@ -19,7 +22,7 @@ export class LogementService {
   ) { }
 
 
-  async searchLogement(query: string): Promise<Logement[]> {
+  async searchHost(query: string): Promise<Host[]> {
     const pipeline = [
       {
         $search: {
@@ -42,7 +45,7 @@ export class LogementService {
       },
     ];
 
-    return this.logementModel.aggregate(pipeline).exec();
+    return this.HostModel.aggregate(pipeline).exec();
   }
 
   async findByFilters(
@@ -50,7 +53,7 @@ export class LogementService {
     category_code: string, 
     minPrice: number, 
     maxPrice: number
-  ): Promise<Logement[]> {
+  ): Promise<Host[]> {
     const filter: any = {
       status: 'ACTIVE',
       price: { $gte: minPrice, $lte: maxPrice },
@@ -66,15 +69,15 @@ export class LogementService {
   
     console.log('Constructed filter:', JSON.stringify(filter, null, 2));
   
-    const results = await this.logementModel.find(filter).exec();
+    const results = await this.HostModel.find(filter).exec();
     
     console.log('Number of results:', results.length);
     return results;
   }
   
 
-  async create(createLogementDto: CreateLogementDto): Promise<Logement> {
-    const { address_code, category_code, amenitiesIds, images } = createLogementDto;
+  async create(createHostDto: CreateHostDto): Promise<Host> {
+    const { address_code, category_code, amenitiesIds, images } = createHostDto;
 
     // Fetch address
     const address = await this.addressModel.findOne({ address_code }).exec();
@@ -102,7 +105,7 @@ export class LogementService {
     // Upload images to Cloudinary
     const uploadedImages = [];
     for (const image of images) {
-      const uploadedImage = await this.cloudinaryService.uploadImage(image, 'logements');
+      const uploadedImage = await this.cloudinaryService.uploadImage(image, 'Hosts');
       uploadedImages.push({
         public_id: uploadedImage.public_id,
         url: uploadedImage.url,
@@ -111,52 +114,52 @@ export class LogementService {
       });
     }
 
-    // Construct Logement object with complete address, category, and amenities objects
-    const createdLogement = new this.logementModel({
-      ...createLogementDto,
+    // Construct Host object with complete address, category, and amenities objects
+    const createdHost = new this.HostModel({
+      ...createHostDto,
       address: address.toObject(), // Convert to plain object
       category: category.toObject(), // Convert to plain object
       amenities,
       image: uploadedImages, // Set the uploaded images array
     });
 
-    return createdLogement.save();
+    return createdHost.save();
   }
 
 
   async findAll(language?: string): Promise<any[]> {
-    const logements = await this.logementModel.find().populate('category').populate('address').exec();
-    return logements.map(logement => this.applyTranslations(logement, language));
+    const Hosts = await this.HostModel.find().populate('category').populate('address').exec();
+    return Hosts.map(Host => this.applyTranslations(Host, language));
   }
 
-  private applyTranslations(logement: any, language?: string): any {
-    const logementObj = logement.toObject();
+  private applyTranslations(Host: any, language?: string): any {
+    const HostObj = Host.toObject();
 
-    // Apply translations for the main logement fields
-    if (language && logementObj.translations && logementObj.translations[language]) {
-      const translatedFields = logementObj.translations[language];
-      logementObj.nom = translatedFields.nom;
-      logementObj.About = translatedFields.About;
+    // Apply translations for the main Host fields
+    if (language && HostObj.translations && HostObj.translations[language]) {
+      const translatedFields = HostObj.translations[language];
+      HostObj.nom = translatedFields.nom;
+      HostObj.About = translatedFields.About;
     }
 
     // Apply translations for the address
-    if (logementObj.address && logementObj.address.translations && logementObj.address.translations[language]) {
-      const translatedAddress = logementObj.address.translations[language];
-      logementObj.address.street = translatedAddress.street;
-      logementObj.address.city = translatedAddress.city;
-      logementObj.address.state = translatedAddress.state;
-      logementObj.address.country = translatedAddress.country;
+    if (HostObj.address && HostObj.address.translations && HostObj.address.translations[language]) {
+      const translatedAddress = HostObj.address.translations[language];
+      HostObj.address.street = translatedAddress.street;
+      HostObj.address.city = translatedAddress.city;
+      HostObj.address.state = translatedAddress.state;
+      HostObj.address.country = translatedAddress.country;
     }
 
     // Apply translations for the category
-    if (logementObj.category && logementObj.category.translation && logementObj.category.translation[language]) {
-      const translatedCategory = logementObj.category.translation[language];
-      logementObj.category.name = translatedCategory.name;
+    if (HostObj.category && HostObj.category.translation && HostObj.category.translation[language]) {
+      const translatedCategory = HostObj.category.translation[language];
+      HostObj.category.name = translatedCategory.name;
     }
 
     // Apply translations for the amenities
-    if (logementObj.amenities && logementObj.amenities.length > 0) {
-      logementObj.amenities = logementObj.amenities.map(amenity => {
+    if (HostObj.amenities && HostObj.amenities.length > 0) {
+      HostObj.amenities = HostObj.amenities.map(amenity => {
         if (language && amenity.translations && amenity.translations[language]) {
           amenity.name = amenity.translations[language];
         }
@@ -166,10 +169,10 @@ export class LogementService {
     }
 
     // Remove the translations objects
-    delete logementObj.translations;
-    if (logementObj.address) delete logementObj.address.translations;
-    if (logementObj.category) delete logementObj.category.translation;
+    delete HostObj.translations;
+    if (HostObj.address) delete HostObj.address.translations;
+    if (HostObj.category) delete HostObj.category.translation;
 
-    return logementObj;
+    return HostObj;
   }
 }
