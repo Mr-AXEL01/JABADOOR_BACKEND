@@ -19,7 +19,31 @@ export class LogementService {
   ) { }
 
 
+  async searchLogement(query: string): Promise<Logement[]> {
+    const pipeline = [
+      {
+        $search: {
+          index: 'SearchHost',
+          text: {
+            query: query,
+            path: {
+              wildcard: '*'
+            },
+          },
+        },
+      },
+      {
+        $match: {
+          status: 'ACTIVE',
+        },
+      },
+      {
+        $limit: 10,
+      },
+    ];
 
+    return this.logementModel.aggregate(pipeline).exec();
+  }
 
   async findByFilters(
     amenitiesIds: string[], 
