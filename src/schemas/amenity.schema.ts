@@ -6,6 +6,9 @@ export type AmenityDocument = Amenity & Document;
 @Schema()
 export class Amenity extends Document {
 
+  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  amenity_code: string;
+
   @Prop({ required: true })
   icon: string;
 
