@@ -102,7 +102,7 @@ export class HostService {
       }
     }
 
-    // Upload images to Cloudinary
+   
     const uploadedImages = [];
     for (const image of images) {
       const uploadedImage = await this.cloudinaryService.uploadImage(image, 'Hosts');
