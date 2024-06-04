@@ -128,51 +128,62 @@ export class HostService {
 
 
   async findAll(language?: string): Promise<any[]> {
-    const Hosts = await this.HostModel.find().populate('category').populate('address').exec();
+    const Hosts = await this.HostModel.find().exec();
     return Hosts.map(Host => this.applyTranslations(Host, language));
   }
 
-  private applyTranslations(Host: any, language?: string): any {
+  private applyTranslations(Host: any, language: string = 'en'): any {
     const HostObj = Host.toObject();
 
     // Apply translations for the main Host fields
-    if (language && HostObj.translations && HostObj.translations[language]) {
-      const translatedFields = HostObj.translations[language];
-      HostObj.nom = translatedFields.nom;
-      HostObj.About = translatedFields.About;
+    if (HostObj.translations && HostObj.translations[language]) {
+        const translatedFields = HostObj.translations[language];
+        HostObj.nom = translatedFields.nom;
+        HostObj.About = translatedFields.About;
     }
 
     // Apply translations for the address
-    if (HostObj.address && HostObj.address.translations && HostObj.address.translations[language]) {
-      const translatedAddress = HostObj.address.translations[language];
-      HostObj.address.street = translatedAddress.street;
-      HostObj.address.city = translatedAddress.city;
-      HostObj.address.state = translatedAddress.state;
-      HostObj.address.country = translatedAddress.country;
+    if (HostObj.address && HostObj.address[language]) {
+        const translatedAddress = HostObj.address[language];
+        HostObj.address = {
+            ...HostObj.address,
+            ...translatedAddress
+        };
+        delete HostObj.address.en;
+        delete HostObj.address.fr;
+        delete HostObj.address.ar;
     }
 
     // Apply translations for the category
-    if (HostObj.category && HostObj.category.translation && HostObj.category.translation[language]) {
-      const translatedCategory = HostObj.category.translation[language];
-      HostObj.category.name = translatedCategory.name;
+    if (HostObj.category && HostObj.category[language]) {
+        const translatedCategory = HostObj.category[language];
+        HostObj.category = {
+            ...HostObj.category,
+            ...translatedCategory
+        };
+        delete HostObj.category.en;
+        delete HostObj.category.fr;
+        delete HostObj.category.ar;
     }
 
     // Apply translations for the amenities
     if (HostObj.amenities && HostObj.amenities.length > 0) {
-      HostObj.amenities = HostObj.amenities.map(amenity => {
-        if (language && amenity.translations && amenity.translations[language]) {
-          amenity.name = amenity.translations[language];
-        }
-        delete amenity.translations;
-        return amenity;
-      });
+        HostObj.amenities = HostObj.amenities.map(amenity => {
+            if (amenity[language]) {
+                const translatedAmenity = amenity[language];
+                amenity = {
+                    ...amenity,
+                    ...translatedAmenity
+                };
+            }
+            delete amenity.en;
+            delete amenity.fr;
+            delete amenity.ar;
+            return amenity;
+        });
     }
 
-    // Remove the translations objects
-    delete HostObj.translations;
-    if (HostObj.address) delete HostObj.address.translations;
-    if (HostObj.category) delete HostObj.category.translation;
-
     return HostObj;
-  }
+}
+
 }
