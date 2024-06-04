@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 
 import { Host } from 'src/schemas/host.schema';
 import { CreateHostDto } from './dto/create-host.dto';
-import { HostService } from './Host.service';
+import { HostService } from './host.service';
 
 @Controller('Hosts')
 export class HostController {
