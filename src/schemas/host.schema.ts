@@ -35,7 +35,7 @@ export interface Image {
   format: string;
 }
 
-@Schema({ collection : "hosts" })
+@Schema()
 export class Host extends Document {
 
 
