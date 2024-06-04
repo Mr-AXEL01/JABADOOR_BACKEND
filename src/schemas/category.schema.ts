@@ -5,7 +5,7 @@ export type CategoryDocument = Category & Document;
 
 @Schema()
 export class Category extends Document {
-  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  @Prop({ required: true,  default: () => Date.now().toString(36) })
   category_code: string;
 
   @Prop({ required: true })
@@ -37,7 +37,7 @@ export class Category extends Document {
   @Prop({ required: true })
   status: string;
 
-  @Prop({ required: true })
+  @Prop({ default: () => new Date().toISOString() })
   added_date: string;
 }
 

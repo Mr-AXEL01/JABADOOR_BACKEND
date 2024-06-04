@@ -41,7 +41,7 @@ export class Host extends Document {
 
   @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
   Host_code: string;
-
+ 
 
   @Prop({ required: true })
   nom: string;

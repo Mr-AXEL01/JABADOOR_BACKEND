@@ -26,7 +26,5 @@ export class CreateCategoryDto {
   @IsString()
   status: string;
 
-  @IsNotEmpty()
-  @IsString()
-  added_date: string;
+
 }
