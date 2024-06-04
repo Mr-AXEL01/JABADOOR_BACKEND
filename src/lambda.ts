@@ -13,7 +13,6 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule, adapter);
     app.enableCors();
-    app.setGlobalPrefix('media');
     await app.init();
     configuredServer = configure({ app: expressApp });
   } catch (error) {

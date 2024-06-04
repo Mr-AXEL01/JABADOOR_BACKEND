@@ -17,8 +17,7 @@ import { FilterModule } from './filter/filter.module';
 import { TransactionsModule } from './transactions/transactions.module';
 
 import { ReservationsModule } from './reservations/reservations.module';
-import { HostModule } from './host/host.module';
-
+import { HostModule } from './host/host.module'
 
 @Module({
   imports: [

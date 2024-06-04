@@ -3,12 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { Address, AddressDocument } from 'src/schemas/address.schema';
-import { Amenity, AmenityDocument } from 'src/schemas/amenity.schema';
-import { Category, CategoryDocument } from 'src/schemas/category.schema';
+import { Address, AddressDocument } from '../schemas/address.schema';
+import { Amenity, AmenityDocument } from '../schemas/amenity.schema';
+import { Category, CategoryDocument } from '../schemas/category.schema';
 
 import { CreateHostDto } from './dto/create-host.dto';
-import { Host, HostDocument } from 'src/schemas/host.schema';
+import { Host, HostDocument } from '../schemas/host.schema';
 
 
 @Injectable()
