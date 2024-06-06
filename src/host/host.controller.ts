@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, NotFoundException, Param } from '@nestjs/common';
 
 import { Host } from 'src/schemas/host.schema';
 import { CreateHostDto } from './dto/create-host.dto';
@@ -43,5 +43,17 @@ export class HostController {
   @Get()
   async findAll(@Query('lang') language?: string) {
     return this.HostService.findAll(language);
+  }
+
+  @Get(':hostCode')
+  async findByHostCode(@Param('hostCode') hostCode: string) {
+    console.log(hostCode);
+    const host = await this.HostService.findByHostCode(hostCode);
+    console.log(host);
+    
+    if (!host) {
+      throw new NotFoundException(`Host with code ${hostCode} not found`);
+    }
+    return host;
   }
 }

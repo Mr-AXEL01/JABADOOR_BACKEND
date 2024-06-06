@@ -185,5 +185,13 @@ export class HostService {
 
     return HostObj;
 }
+async findByHostCode(hostCode: string): Promise<Host | null> {
+  console.log(hostCode);
+  
+  const host = await this.HostModel.findOne({ Host_code: hostCode }).exec();
+  return host;
+}
+
+
 
 }
