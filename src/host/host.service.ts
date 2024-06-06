@@ -185,5 +185,14 @@ export class HostService {
 
     return HostObj;
 }
+async findByHostCode(hostCode: string, language?: string): Promise<Host | null> {
+  const host = await this.HostModel.findOne({ Host_code: hostCode }).exec();
+  if (host && language) {
+    return this.applyTranslations(host, language);
+  }
+  return host;
+}
+
+
 
 }
