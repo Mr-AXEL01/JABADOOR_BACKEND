@@ -46,11 +46,11 @@ export class HostController {
   }
 
   @Get(':hostCode')
-  async findByHostCode(@Param('hostCode') hostCode: string) {
-    console.log(hostCode);
-    const host = await this.HostService.findByHostCode(hostCode);
-    console.log(host);
-    
+  async findByHostCode(
+    @Param('hostCode') hostCode: string,
+    @Query('lang') language?: string
+  ) {
+    const host = await this.HostService.findByHostCode(hostCode, language);
     if (!host) {
       throw new NotFoundException(`Host with code ${hostCode} not found`);
     }
