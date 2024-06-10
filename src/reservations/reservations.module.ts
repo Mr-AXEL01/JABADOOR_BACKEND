@@ -10,5 +10,6 @@ import { Reservation, ReservationSchema } from '../schemas/reservation.schema';
   ],
   controllers: [ReservationsController],
   providers: [ReservationsService],
+  exports: [MongooseModule], 
 })
 export class ReservationsModule {}
