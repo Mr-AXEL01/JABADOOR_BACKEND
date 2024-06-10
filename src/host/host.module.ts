@@ -7,6 +7,7 @@ import { CategoryModule } from 'src/categories/categories.module';
 import { AmenityModule } from 'src/amenities/amenities.module';
 import { Host, HostSchema } from '../schemas/host.schema';
 import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { ReservationsModule } from 'src/reservations/reservations.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
     AddressModule, 
     CategoryModule,
     AmenityModule,
+    ReservationsModule,
     CloudinaryModule
   ],
   controllers: [HostController],

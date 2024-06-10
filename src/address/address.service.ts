@@ -1,5 +1,5 @@
 // address.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Query } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -59,4 +59,54 @@ async findAllAddresses(language: string = 'en'): Promise<Address[]> {
     }
     return deletedAddress;
   }
+
+  async findAddresses(search: string, language: string): Promise<Address[]> {
+    if (!['fr', 'en', 'ar'].includes(language)) {
+      throw new Error('Invalid language code');
+    }
+
+    const query = {
+      [`${language}.address`]: { $regex: search, $options: 'i' },
+      [`${language}.city`]: { $regex: search, $options: 'i' },
+      [`${language}.country`]: { $regex: search, $options: 'i' }
+    };
+
+    return this.addressModel.find({
+      $or: [
+        { [`${language}.address`]: query[`${language}.address`] },
+        { [`${language}.city`]: query[`${language}.city`] },
+        { [`${language}.country`]: query[`${language}.country`] }
+      ]
+    }).exec();
+  }
+
+  async searchAddresses(
+    @Query('q') search: string,
+    @Query('lang') language: string
+  ): Promise<Address[]> {
+    if (!search) {
+      throw new BadRequestException('Search query (q) is required');
+    }
+  
+    if (!language) {
+      throw new BadRequestException('Language (lang) is required');
+    }
+  
+    if (!['fr', 'en', 'ar'].includes(language)) {
+      throw new BadRequestException('Invalid language code');
+    }
+  
+    const addresses = await this.findAddresses(search, language);
+    
+    // Extract relevant fields for the specified language
+    const filteredAddresses = addresses.map(address => ({
+      _id: address._id,
+      address_code: address.address_code,
+      ...address[language]
+    }));
+  
+    return filteredAddresses;
+  }
+  
+  
 }

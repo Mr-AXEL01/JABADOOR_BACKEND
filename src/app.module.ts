@@ -33,6 +33,7 @@ import { HostModule } from './host/host.module'
     FilterModule,
     TransactionsModule,
     ReservationsModule,
+    
      ],
   controllers: [AppController],
   providers: [AppService],

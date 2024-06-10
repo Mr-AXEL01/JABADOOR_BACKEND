@@ -1,6 +1,6 @@
 // address.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { AddressDetails } from 'src/address/interfaces/address.interface';
 
 export type AddressDocument = Address & Document;
@@ -18,6 +18,10 @@ export class Address {
 
   @Prop({ required: true, type: Object }) // Add type: Object here
   ar: AddressDetails;
+
+    // Define _id property explicitly
+    @Prop({ type: Types.ObjectId })
+    _id: Types.ObjectId;
   
 }
 
