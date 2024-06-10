@@ -26,27 +26,61 @@ export class HostController {
   // }
 
 
-  @Get('filter')
-  async findByFilters(
-    @Query('amenitiesIds') amenitiesIds?: string | string[],
-    @Query('category_code') category_code?: string,
-    @Query('minPrice') minPrice?: string,
-    @Query('maxPrice') maxPrice?: string,
-    @Query('check_in_date') checkInDate?: string,
-    @Query('check_out_date') checkOutDate?: string,
-    @Query('adults') adults?: string,
-    @Query('children') children?: string,
-    @Query('address_code') addressCode?: string
-  ): Promise<Host[]> {
-    const amenitiesArray = amenitiesIds ? (Array.isArray(amenitiesIds) ? amenitiesIds : [amenitiesIds]) : [];
-    const min = minPrice ? parseFloat(minPrice) : undefined;
-    const max = maxPrice ? parseFloat(maxPrice) : undefined;
-    const adultsCount = adults ? parseInt(adults) : undefined;
-    const childrenCount = children ? parseInt(children) : undefined;
+  // @Get('filter')
+  // async findByFilters(
+  //   @Query('amenitiesIds') amenitiesIds?: string | string[],
+  //   @Query('category_code') category_code?: string,
+  //   @Query('minPrice') minPrice?: string,
+  //   @Query('maxPrice') maxPrice?: string,
+  //   @Query('check_in_date') checkInDate?: string,
+  //   @Query('check_out_date') checkOutDate?: string,
+  //   @Query('adults') adults?: string,
+  //   @Query('children') children?: string,
+  //   @Query('address_code') addressCode?: string
+  // ): Promise<Host[]> {
+  //   const amenitiesArray = amenitiesIds ? (Array.isArray(amenitiesIds) ? amenitiesIds : [amenitiesIds]) : [];
+  //   const min = minPrice ? parseFloat(minPrice) : undefined;
+  //   const max = maxPrice ? parseFloat(maxPrice) : undefined;
+  //   const adultsCount = adults ? parseInt(adults) : undefined;
+  //   const childrenCount = children ? parseInt(children) : undefined;
 
-    return this.HostService.findByFilters(amenitiesArray, category_code, min, max, checkInDate, checkOutDate, adultsCount, childrenCount, addressCode);
-  }
-  
+  //   return this.HostService.findByFilters(amenitiesArray, category_code, min, max, checkInDate, checkOutDate, adultsCount, childrenCount, addressCode);
+  // }
+
+  @Get('filter')
+async findByFilters(
+  @Query('amenitiesIds') amenitiesIds?: string | string[],
+  @Query('category_code') category_code?: string,
+  @Query('minPrice') minPrice?: string,
+  @Query('maxPrice') maxPrice?: string,
+  @Query('check_in_date') checkInDate?: string,
+  @Query('check_out_date') checkOutDate?: string,
+  @Query('adults') adults?: string,
+  @Query('children') children?: string,
+  @Query('address_code') addressCode?: string,
+  @Query('lang') language?: string // New query parameter for language
+): Promise<Host[]> {
+  const amenitiesArray = amenitiesIds ? (Array.isArray(amenitiesIds) ? amenitiesIds : [amenitiesIds]) : [];
+  const min = minPrice ? parseFloat(minPrice) : undefined;
+  const max = maxPrice ? parseFloat(maxPrice) : undefined;
+  const adultsCount = adults ? parseInt(adults) : undefined;
+  const childrenCount = children ? parseInt(children) : undefined;
+
+  return this.HostService.findByFilters(
+    amenitiesArray, 
+    category_code, 
+    min, 
+    max, 
+    checkInDate, 
+    checkOutDate, 
+    adultsCount, 
+    childrenCount, 
+    addressCode, 
+    language // Pass language to the service method
+  );
+}
+
+
   @Post()
   async create(@Body() createHostDto: CreateHostDto) {
     return this.HostService.create(createHostDto);
