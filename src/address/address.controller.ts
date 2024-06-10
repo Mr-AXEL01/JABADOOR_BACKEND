@@ -1,5 +1,4 @@
-// address.controller.ts
-import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, NotFoundException, Query, BadRequestException } from '@nestjs/common';
 import { AddressService } from './address.service';
 
 import { AddressDetails } from './interfaces/address.interface';
@@ -14,17 +13,25 @@ export class AddressController {
     return this.addressService.createAddress(body.fr, body.en, body.ar);
   }
 
+  @Post('many')
+  async createMany(@Body() body: { addresses: { fr: AddressDetails, en: AddressDetails, ar: AddressDetails }[] }): Promise<Address[]> {
+    return this.addressService.createAddresses(body.addresses);
+  }
 
-@Post('many')
-async createMany(@Body() body: { addresses: { fr: AddressDetails, en: AddressDetails, ar: AddressDetails }[] }): Promise<Address[]> {
-  return this.addressService.createAddresses(body.addresses);
-}
+  @Get()
+  async findAll(@Query('lang') lang: string = 'en'): Promise<Address[]> {
+    return this.addressService.findAllAddresses(lang);
+  }
 
+  @Get('search')
+  async searchAddresses(
+    @Query('q') search: string,
+    @Query('lang') language: string
+  ): Promise<Address[]> {
+    return this.addressService.searchAddresses(search, language);
+  }
+  
 
-@Get()
-async findAll(@Query('lang') lang: string = 'en'): Promise<Address[]> {
-  return this.addressService.findAllAddresses(lang);
-}
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Address> {
     return this.addressService.findAddressById(id);
