@@ -9,6 +9,7 @@ import { Category, CategoryDocument } from '../schemas/category.schema';
 
 import { CreateHostDto } from './dto/create-host.dto';
 import { Host, HostDocument } from '../schemas/host.schema';
+import { Reservation, ReservationDocument } from 'src/schemas/reservation.schema';
 
 
 @Injectable()
@@ -18,6 +19,7 @@ export class HostService {
     @InjectModel(Address.name) private readonly addressModel: Model<AddressDocument>,
     @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
     @InjectModel(Amenity.name) private readonly amenityModel: Model<AmenityDocument>,
+    @InjectModel(Reservation.name) private readonly reservationModel: Model<ReservationDocument>,
     private readonly cloudinaryService: CloudinaryService,
   ) { }
 
@@ -48,32 +50,89 @@ export class HostService {
     return this.HostModel.aggregate(pipeline).exec();
   }
 
+  // async findByFilters(
+  //   amenitiesIds: string[], 
+  //   category_code: string, 
+  //   minPrice: number, 
+  //   maxPrice: number
+  // ): Promise<Host[]> {
+  //   const filter: any = {
+  //     status: 'ACTIVE',
+  //     price: { $gte: minPrice, $lte: maxPrice },
+  //   };
+  
+  //   if (amenitiesIds && amenitiesIds.length > 0) {
+  //     filter['amenities._id'] = { $in: amenitiesIds };
+  //   }
+  
+  //   if (category_code) {
+  //     filter['category.category_code'] = category_code;
+  //   }
+  
+  //   console.log('Constructed filter:', JSON.stringify(filter, null, 2));
+  
+  //   const results = await this.HostModel.find(filter).exec();
+    
+  //   console.log('Number of results:', results.length);
+  //   return results;
+  // }
+
   async findByFilters(
-    amenitiesIds: string[], 
-    category_code: string, 
-    minPrice: number, 
-    maxPrice: number
+    amenitiesIds?: string[], 
+    category_code?: string, 
+    minPrice?: number, 
+    maxPrice?: number,
+    checkInDate?: string,
+    checkOutDate?: string,
+    adults?: number,
+    children?: number,
+    addressCode?: string
   ): Promise<Host[]> {
     const filter: any = {
       status: 'ACTIVE',
-      price: { $gte: minPrice, $lte: maxPrice },
     };
-  
+
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      filter.price = { $gte: minPrice, $lte: maxPrice };
+    }
+
     if (amenitiesIds && amenitiesIds.length > 0) {
       filter['amenities._id'] = { $in: amenitiesIds };
     }
-  
+
     if (category_code) {
       filter['category.category_code'] = category_code;
     }
-  
-    console.log('Constructed filter:', JSON.stringify(filter, null, 2));
-  
-    const results = await this.HostModel.find(filter).exec();
-    
-    console.log('Number of results:', results.length);
-    return results;
+
+    if (addressCode) {
+      filter['address.address_code'] = addressCode;
+    }
+
+    let hosts = await this.HostModel.find(filter).exec();
+
+    if (checkInDate && checkOutDate) {
+      const checkIn = new Date(checkInDate);
+      const checkOut = new Date(checkOutDate);
+
+      const unavailableHostCodes = await this.reservationModel.find({
+        $or: [
+          { check_in_date: { $lt: checkOut, $gte: checkIn } },
+          { check_out_date: { $gt: checkIn, $lte: checkOut } },
+          { check_in_date: { $lte: checkIn }, check_out_date: { $gte: checkOut } },
+        ]
+      }).distinct('host_code').exec();
+
+      hosts = hosts.filter(host => !unavailableHostCodes.includes(host.Host_code));
+    }
+
+    if (adults !== undefined && children !== undefined) {
+      const totalGuests = adults + children;
+      hosts = hosts.filter(host => host.guests >= totalGuests);
+    }
+
+    return hosts;
   }
+
   
 
   async create(createHostDto: CreateHostDto): Promise<Host> {
