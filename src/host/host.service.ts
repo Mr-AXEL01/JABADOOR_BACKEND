@@ -50,33 +50,6 @@ export class HostService {
     return this.HostModel.aggregate(pipeline).exec();
   }
 
-  // async findByFilters(
-  //   amenitiesIds: string[], 
-  //   category_code: string, 
-  //   minPrice: number, 
-  //   maxPrice: number
-  // ): Promise<Host[]> {
-  //   const filter: any = {
-  //     status: 'ACTIVE',
-  //     price: { $gte: minPrice, $lte: maxPrice },
-  //   };
-  
-  //   if (amenitiesIds && amenitiesIds.length > 0) {
-  //     filter['amenities._id'] = { $in: amenitiesIds };
-  //   }
-  
-  //   if (category_code) {
-  //     filter['category.category_code'] = category_code;
-  //   }
-  
-  //   console.log('Constructed filter:', JSON.stringify(filter, null, 2));
-  
-  //   const results = await this.HostModel.find(filter).exec();
-    
-  //   console.log('Number of results:', results.length);
-  //   return results;
-  // }
-
   async findByFilters(
     amenitiesIds?: string[], 
     category_code?: string, 
@@ -244,6 +217,7 @@ export class HostService {
 
     return HostObj;
 }
+
 async findByHostCode(hostCode: string, language?: string): Promise<Host | null> {
   const host = await this.HostModel.findOne({ Host_code: hostCode }).exec();
   if (host && language) {
@@ -251,7 +225,5 @@ async findByHostCode(hostCode: string, language?: string): Promise<Host | null> 
   }
   return host;
 }
-
-
 
 }
