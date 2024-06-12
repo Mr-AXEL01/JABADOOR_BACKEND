@@ -15,7 +15,7 @@ import { Reservation, ReservationDocument } from 'src/schemas/reservation.schema
 @Injectable()
 export class HostService {
   constructor(
-    @InjectModel(Host.name) private readonly HostModel: Model<HostDocument>,
+    @InjectModel(Host.name) private readonly hostModel: Model<HostDocument>,
     @InjectModel(Address.name) private readonly addressModel: Model<AddressDocument>,
     @InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>,
     @InjectModel(Amenity.name) private readonly amenityModel: Model<AmenityDocument>,
@@ -47,7 +47,7 @@ export class HostService {
       },
     ];
 
-    return this.HostModel.aggregate(pipeline).exec();
+    return this.hostModel.aggregate(pipeline).exec();
   }
 
   async findByFilters(
@@ -82,7 +82,7 @@ export class HostService {
       filter['address.address_code'] = addressCode;
     }
   
-    let hosts = await this.HostModel.find(filter).exec();
+    let hosts = await this.hostModel.find(filter).exec();
   
     if (checkInDate && checkOutDate) {
       const checkIn = new Date(checkInDate);
@@ -154,7 +154,7 @@ export class HostService {
     }
 
     // Construct Host object with complete address, category, and amenities objects
-    const createdHost = new this.HostModel({
+    const createdHost = new this.hostModel({
       ...createHostDto,
       address: address.toObject(), // Convert to plain object
       category: category.toObject(), // Convert to plain object
@@ -167,7 +167,7 @@ export class HostService {
 
 
   async findAll(language?: string): Promise<any[]> {
-    const Hosts = await this.HostModel.find().exec();
+    const Hosts = await this.hostModel.find().exec();
     return Hosts.map(Host => this.applyTranslations(Host, language));
   }
 
@@ -226,7 +226,7 @@ export class HostService {
 }
 
 async findByHostCode(hostCode: string, language?: string): Promise<Host | null> {
-  const host = await this.HostModel.findOne({ Host_code: hostCode }).exec();
+  const host = await this.hostModel.findOne({ Host_code: hostCode }).exec();
   if (host && language) {
     return this.applyTranslations(host, language);
   }
