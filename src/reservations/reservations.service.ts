@@ -10,6 +10,12 @@ export class ReservationsService {
     @InjectModel(Reservation.name) private reservationModel: Model<ReservationDocument>,
   ) {}
 
+  async findValidReservationDatesByHostCode(host_code: string): Promise<{ check_in_date: Date, check_out_date: Date }[]> {
+    return this.reservationModel
+      .find({ host_code, status: 'valid' })
+      .select('check_in_date check_out_date -_id')  // Select only the dates, exclude _id
+      .exec();
+  }
   async create(createReservationDto: CreateReservationDto): Promise<Reservation> {
     const { reservation_code } = createReservationDto;
 
@@ -26,5 +32,6 @@ export class ReservationsService {
   async findAll(): Promise<Reservation[]> {
     return this.reservationModel.find().exec();
   }
+
 
 }
