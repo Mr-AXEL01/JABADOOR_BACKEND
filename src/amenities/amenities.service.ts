@@ -2,9 +2,8 @@ import { Injectable, NotFoundException, ConflictException } from '@nestjs/common
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
-import { CreateAmenityDto } from './dto/create-amenity.dto';
 import { Amenity, AmenityDocument } from '../schemas/amenity.schema';
-
+import { AmenityDto, CreateAmenitiesDto } from './dto/create-amenity.dto';
 @Injectable()
 export class AmenityService {
   constructor(
@@ -12,19 +11,25 @@ export class AmenityService {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  async create(createAmenityDto: CreateAmenityDto): Promise<Amenity> {
-    const { amenity_code, icon, ar, fr, en } = createAmenityDto;
+  async create(createAmenityDto: AmenityDto): Promise<Amenity> {
+    const { amenity_code, icon, svg, ar, fr, en, type } = createAmenityDto;
 
-    // be sure that the amenity_code is unique 
     const existingAmenity = await this.amenityModel.findOne({ amenity_code }).exec();
     if (existingAmenity) {
       throw new ConflictException('Amenity code must be unique');
     }
 
-    const uploadIcon = await this.cloudinaryService.uploadImage(icon, 'amenities');
+    let uploadIconUrl;
+    if (icon) {
+      const uploadIcon = await this.cloudinaryService.uploadImage(icon, 'amenities');
+      uploadIconUrl = uploadIcon.secure_url;
+    }
+
     const createdAmenity = new this.amenityModel({
       amenity_code,
-      icon: uploadIcon.secure_url,
+      icon: uploadIconUrl,
+      svg,
+      type,
       ar: { name: ar.name },
       fr: { name: fr.name },
       en: { name: en.name },
@@ -32,6 +37,41 @@ export class AmenityService {
 
     return createdAmenity.save();
   }
+
+  async createMany(createAmenitiesDto: CreateAmenitiesDto): Promise<Amenity[]> {
+    const amenities = createAmenitiesDto.amenities;
+    const createdAmenities = [];
+
+    for (const amenityDto of amenities) {
+      const { amenity_code, icon, svg, ar, fr, en, type } = amenityDto;
+
+      const existingAmenity = await this.amenityModel.findOne({ amenity_code }).exec();
+      if (existingAmenity) {
+        throw new ConflictException(`Amenity code ${amenity_code} must be unique`);
+      }
+
+      let uploadIconUrl;
+      if (icon) {
+        const uploadIcon = await this.cloudinaryService.uploadImage(icon, 'amenities');
+        uploadIconUrl = uploadIcon.secure_url;
+      }
+
+      const createdAmenity = new this.amenityModel({
+        amenity_code,
+        icon: uploadIconUrl,
+        svg,
+        type,
+        ar: { name: ar.name },
+        fr: { name: fr.name },
+        en: { name: en.name },
+      });
+
+      createdAmenities.push(await createdAmenity.save());
+    }
+
+    return createdAmenities;
+  }
+
 
   async findAll(lang: string = 'en'): Promise<any[]> {
     const amenities = await this.amenityModel.find().exec();
@@ -54,15 +94,9 @@ export class AmenityService {
         amenity_code: amenity.amenity_code,
         name: name,
         icon: amenity.icon,
+        svg: amenity.svg,
+        type:amenity.type,
       };
     });
   }
-
-  // async findOne(id: string): Promise<Amenity> {
-  //   const amenity = await this.amenityModel.findById(id).exec();
-  //   if (!amenity) {
-  //     throw new NotFoundException(`Amenity with id ${id} not found`);
-  //   }
-  //   return amenity;
-  // }
 }

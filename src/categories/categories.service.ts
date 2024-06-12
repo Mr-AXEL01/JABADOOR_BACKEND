@@ -60,4 +60,25 @@ export class CategoryService {
       };
     });
   }
+
+
+
+  async createMultiple(createCategoryDtos: CreateCategoryDto[]): Promise<Category[]> {
+    const createdCategories: Category[] = [];
+
+    for (const createCategoryDto of createCategoryDtos) {
+      try {
+        const createdCategory = await this.create(createCategoryDto);
+        createdCategories.push(createdCategory);
+      } catch (error) {
+        if (error instanceof ConflictException) {
+          console.error(`Category with code ${createCategoryDto.category_code} already exists.`);
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    return createdCategories;
+  }
 }

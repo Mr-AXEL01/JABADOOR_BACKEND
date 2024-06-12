@@ -16,5 +16,10 @@ export class ReservationsController {
   async findAll(): Promise<Reservation[]> {
     return this.reservationsService.findAll();
   }
+  @Get('valid-dates/:host_code')
+  async findValidReservationDatesByHostCode(@Param('host_code') host_code: string) {
+    return this.reservationsService.findValidReservationDatesByHostCode(host_code);
+  }
 
+  
 }

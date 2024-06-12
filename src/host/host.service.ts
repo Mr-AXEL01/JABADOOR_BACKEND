@@ -59,34 +59,35 @@ export class HostService {
     checkOutDate?: string,
     adults?: number,
     children?: number,
-    addressCode?: string
+    addressCode?: string,
+    language?: string // New parameter for language
   ): Promise<Host[]> {
     const filter: any = {
       status: 'ACTIVE',
     };
-
+  
     if (minPrice !== undefined && maxPrice !== undefined) {
       filter.price = { $gte: minPrice, $lte: maxPrice };
     }
-
+  
     if (amenitiesIds && amenitiesIds.length > 0) {
       filter['amenities._id'] = { $in: amenitiesIds };
     }
-
+  
     if (category_code) {
       filter['category.category_code'] = category_code;
     }
-
+  
     if (addressCode) {
       filter['address.address_code'] = addressCode;
     }
-
+  
     let hosts = await this.HostModel.find(filter).exec();
-
+  
     if (checkInDate && checkOutDate) {
       const checkIn = new Date(checkInDate);
       const checkOut = new Date(checkOutDate);
-
+  
       const unavailableHostCodes = await this.reservationModel.find({
         $or: [
           { check_in_date: { $lt: checkOut, $gte: checkIn } },
@@ -94,17 +95,23 @@ export class HostService {
           { check_in_date: { $lte: checkIn }, check_out_date: { $gte: checkOut } },
         ]
       }).distinct('host_code').exec();
-
+  
       hosts = hosts.filter(host => !unavailableHostCodes.includes(host.Host_code));
     }
-
+  
     if (adults !== undefined && children !== undefined) {
       const totalGuests = adults + children;
       hosts = hosts.filter(host => host.guests >= totalGuests);
     }
-
+  
+    // Apply translations if language is provided
+    if (language) {
+      hosts = hosts.map(host => this.applyTranslations(host, language));
+    }
+  
     return hosts;
   }
+  
 
   
 
