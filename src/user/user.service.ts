@@ -14,7 +14,7 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Address.name) private addressModel: Model<AddressDocument>,
 
-    @InjectModel(Host.name) private HostModel: Model<HostDocument>,
+    @InjectModel(Host.name) private hostModel: Model<HostDocument>,
     private readonly cloudinaryService: CloudinaryService,
     
   ) { }
@@ -99,7 +99,7 @@ export class UserService {
     }
 
     const HostCodes = user.wishlist.map(item => item.Host_code);
-    const Hosts = await this.HostModel.find({ Host_code: { $in: HostCodes } }).exec();
+    const Hosts = await this.hostModel.find({ Host_code: { $in: HostCodes } }).exec();
     
     return Hosts;
   }
