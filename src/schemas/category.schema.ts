@@ -13,20 +13,20 @@ export class Category extends Document {
 
   @Prop( 
     raw({
-      name: { type: String, unique: true },
+      name: { type: String, },
     }) 
   ) 
   ar: Record<string , any>;
 
   @Prop(
     raw({
-      name: { type: String, unique: true },
+      name: { type: String, },
     }))
   fr: Record<string , any>;
 
   @Prop(
     raw({
-      name: { type: String, unique: true },
+      name: { type: String, },
     }))
   en: Record<string , any>;
 

@@ -25,7 +25,7 @@ export class Amenity extends Document {
   @Prop({ required: true, default: () => Date.now().toString(36) })
   amenity_code: string;
 
-  @Prop({ required: true, enum: AmenityType })
+  @Prop({ required: false, enum: AmenityType })
   type: string;
 
   @Prop({ required: false })

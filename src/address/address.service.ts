@@ -100,7 +100,7 @@ async findAllAddresses(language: string = 'en'): Promise<Address[]> {
     
     // Extract relevant fields for the specified language
     const filteredAddresses = addresses.map(address => ({
-      _id: address._id,
+    
       address_code: address.address_code,
       ...address[language]
     }));
