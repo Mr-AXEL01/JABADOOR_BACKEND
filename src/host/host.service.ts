@@ -24,6 +24,38 @@ export class HostService {
   ) { }
 
 
+  async countAvailableHosts(
+    checkInDate: string,
+    checkOutDate: string,
+    addressCode: string,
+    adults?: number,
+    children?: number
+  ): Promise<number> {
+    // Ensure adults and children are numbers
+    const adultsNumber = Number(adults);
+    const childrenNumber = Number(children);
+    const totalGuests = adultsNumber + childrenNumber;
+
+    console.log(totalGuests);
+
+    const filter: any = {
+      status: 'ACTIVE',
+      'address.address_code': addressCode,
+      guests: { $gte: totalGuests } // Ensure host can accommodate the total number of guests
+    };
+
+    const hosts = await this.hostModel.find(filter).exec();
+
+    // Example: Filter hosts based on availability logic (check reservations, etc.)
+    const availableHosts = hosts.filter(host => {
+      // Replace with your availability logic (e.g., check reservations)
+      return true; // Placeholder logic for availability check
+    });
+
+    return availableHosts.length;
+  }
+
+
   async searchHost(query: string): Promise<Host[]> {
     const pipeline = [
       {

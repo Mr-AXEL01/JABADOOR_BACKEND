@@ -49,7 +49,7 @@ export class Host extends Document {
   @Prop({ type: Address, required: true }) // Embed entire Address schema
   address: Address;
 
-  @Prop({ type: CategorySchema, required: true }) // Embed entire Category schema
+  @Prop({ type: Category, required: true }) // Embed entire Category schema
   category: Category;
 
   @Prop({ required: true })

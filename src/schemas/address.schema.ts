@@ -19,9 +19,9 @@ export class Address {
   @Prop({ required: true, type: Object }) // Add type: Object here
   ar: AddressDetails;
 
-    // Define _id property explicitly
-    @Prop({ type: Types.ObjectId })
-    _id: Types.ObjectId;
+   
+    // @Prop({ type: Types.ObjectId })
+    // _id: Types.ObjectId;
   
 }
 

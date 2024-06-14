@@ -6,7 +6,7 @@ import { HostService } from './host.service';
 
 @Controller('Hosts')
 export class HostController {
-  constructor(private readonly HostService: HostService) {}
+  constructor(private readonly hostService: HostService) {}
 
 
 
@@ -30,7 +30,7 @@ async findByFilters(
   const adultsCount = adults ? parseInt(adults) : undefined;
   const childrenCount = children ? parseInt(children) : undefined;
 
-  return this.HostService.findByFilters(
+  return this.hostService.findByFilters(
     amenitiesArray, 
     category_code, 
     min, 
@@ -47,23 +47,32 @@ async findByFilters(
 
   @Post()
   async create(@Body() createHostDto: CreateHostDto) {
-    return this.HostService.create(createHostDto);
+    return this.hostService.create(createHostDto);
   }
 
   // @Post('many')
   // async createMany(@Body() createHostDtos: CreateHostDto[]) {
-  //   return this.HostService.createMany(createHostDtos);
+  //   return this.hostService.createMany(createHostDtos);
   // }
-
+  @Get('count-available')
+  async countAvailableHosts(
+    @Query('checkInDate') checkInDate: string,
+    @Query('checkOutDate') checkOutDate: string,
+    @Query('addressCode') addressCode: string,
+    @Query('adults') adults?: number,
+    @Query('children') children?: number
+  ): Promise<number> {
+    return this.hostService.countAvailableHosts(checkInDate, checkOutDate, addressCode, adults, children);
+  }
 
   @Get('search')
   async searchHosts(@Query('query') query: string): Promise<Host[]> {
-    return this.HostService.searchHost(query);
+    return this.hostService.searchHost(query);
   }
 
   @Get()
   async findAll(@Query('lang') language?: string) {
-    return this.HostService.findAll(language);
+    return this.hostService.findAll(language);
   }
 
   @Get(':hostCode')
@@ -71,7 +80,7 @@ async findByFilters(
     @Param('hostCode') hostCode: string,
     @Query('lang') language?: string
   ) {
-    const host = await this.HostService.findByHostCode(hostCode, language);
+    const host = await this.hostService.findByHostCode(hostCode, language);
     if (!host) {
       throw new NotFoundException(`Host with code ${hostCode} not found`);
     }
