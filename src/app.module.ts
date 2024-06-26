@@ -34,7 +34,9 @@ import { HostModule } from './host/host.module'
     TransactionsModule,
     ReservationsModule,
     
-     ],
+    
+  
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

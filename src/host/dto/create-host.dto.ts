@@ -1,8 +1,7 @@
-import { IsString, IsNumber, IsBoolean, IsOptional, IsMongoId, IsNotEmpty, IsArray, ArrayNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsOptional, IsArray, ArrayNotEmpty, IsLatitude, IsLongitude, IsNotEmpty } from 'class-validator';
 import { Translation } from '../interfaces/translation.interface';
 
 export class CreateHostDto {
-
   @IsNotEmpty()
   @IsString()
   Host_code: string;
@@ -67,4 +66,10 @@ export class CreateHostDto {
     fr: Translation;
     ar: Translation;
   };
+
+  @IsLatitude()
+  latitude?: number;
+
+  @IsLongitude()
+  longitude?: number;
 }

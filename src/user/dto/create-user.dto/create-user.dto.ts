@@ -158,9 +158,6 @@ export class UpdateUserDto {
   @IsString()
   become_creator?: string;
 
-  @IsOptional()
-  @IsString()
-  type_service?: string;
 
   @IsOptional()
   @IsString()
