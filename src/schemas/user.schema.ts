@@ -68,9 +68,7 @@ export class User {
   @Prop()
   become_creator?: string;
 
-  @Prop({ required: true })
-  type_service: string;
-
+ 
 
 
   @Prop({ required: true, type: Object })

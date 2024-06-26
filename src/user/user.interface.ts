@@ -25,7 +25,7 @@ export interface User {
   count_rate: number;
   added_date: Date;
   become_creator?: string;
-  type_service: string;
+
   wishlistid?: string;
   social_media: SocialMedia;
 }
