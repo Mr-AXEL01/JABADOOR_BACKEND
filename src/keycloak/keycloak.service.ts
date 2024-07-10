@@ -7,10 +7,10 @@ import * as https from 'https';
 @Injectable()
 export class KeycloakService {
   private readonly logger = new Logger(KeycloakService.name);
-  private baseUrl = process.env.KEYCLOAK_BASE_URL || 'https://16.171.196.244:8081';
-  private realm = process.env.KEYCLOAK_REALM || 'daintymeal';
-  private clientId = process.env.KEYCLOAK_CLIENT_ID || 'daintymeal';
-  private clientSecret = process.env.KEYCLOAK_CLIENT_SECRET || 'gYIWT6ogY1GXMCg7WjACMaY4rHoLjIQm'; 
+  private baseUrl = process.env.KEYCLOAK_BASE_URL || 'https://13.60.27.189:8081';
+  private realm = process.env.KEYCLOAK_REALM || 'onedustry';
+  private clientId = process.env.KEYCLOAK_CLIENT_ID || 'Jabadoor';
+  private clientSecret = process.env.KEYCLOAK_CLIENT_SECRET || '9pdPegT8kYTRXeOIaD8geA9G1VxazLO1'; 
   private readonly axiosInstance: AxiosInstance;
 
   constructor() {

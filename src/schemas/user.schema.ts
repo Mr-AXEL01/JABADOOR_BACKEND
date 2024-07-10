@@ -16,11 +16,11 @@ class WishlistItem {
 
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true, default: () => Date.now().toString(36) })
+  @Prop({ unique: true, default: () => Date.now().toString(36) })
  
   user_code: string;
 
-  @Prop({ required: true })
+  @Prop()
   user_name: string;
 
   @Prop()
@@ -29,40 +29,37 @@ export class User {
   @Prop()
   bio?: string;
 
-  @Prop({ required: true })
+  @Prop()
   first_name: string;
 
-  @Prop({ required: true })
+  @Prop()
   last_name: string;
 
-  @Prop({ required: true })
+  @Prop()
   gender: string;
 
-  @Prop({ required: true })
+  @Prop()
   birthdate: string;
 
-  @Prop({ required: true, type: Object })
-  address: Address;
-
-  @Prop({ required: true })
+  @Prop()
   status: string;
 
-  @Prop({ required: true })
+  @Prop()
   gsm: string;
 
-  @Prop({ required: true })
+  @Prop()
   email: string;
 
-  @Prop({ required: true })
+  @Prop()
   language_default: string;
 
-  @Prop({ required: true })
+  @Prop()
   rate: number;
 
-  @Prop({ required: true })
+  @Prop()
   count_rate: number;
 
-  @Prop({ required: true })
+  @Prop()
   added_date: Date;
 
   @Prop()
@@ -71,10 +68,10 @@ export class User {
  
 
 
-  @Prop({ required: true, type: Object })
+  @Prop({type: Object })
   social_media: SocialMedia;
 
-  @Prop({ required: true })
+  @Prop()
   password: string;
 
   @Prop({ type: [WishlistItem], default: [] })
